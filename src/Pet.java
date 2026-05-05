@@ -1,0 +1,39 @@
+public class Pet {
+ private int hunger = 50;   // 0 = starving, 100 = full
+ private int thirst = 50;   // 0 = dehydrated, 100 = quenched
+ private int mood = 50;     // 0 = sad, 100 = happy
+ private int energy = 50;   //  0 = exhausted, 100 = energetic
+
+ public int getHunger() {
+    return hunger;
+  }
+
+  public int getThirst() {
+    return thirst;
+  }
+
+  public int getMood() {
+    return mood;
+  }
+
+  public int getEnergy() {
+    return energy;
+  }
+
+  public void feed() {
+    hunger = Math.min(100, hunger + 20); // Increase hunger level by 20, max 100
+  }
+
+  public void drink() {
+    thirst = Math.min(100, thirst + 20); // Increase thirst level by 20, max 100
+  }
+
+  public void play() {
+    mood = Math.min(100, mood + 20); // Increase mood level by 20, max 100
+    energy = Math.max(0, energy - 10); // Decrease energy level by 10, min 0
+  }
+
+  public void sleep() {
+    energy = Math.min(100, energy + 30); // Increase energy level by 30, max 100
+  }
+}

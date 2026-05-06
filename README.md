@@ -11,6 +11,8 @@ A simple Java Swing pet game with status bars and action buttons.
 - Play with the pet
 - Let the pet sleep
 - Pet stats decay over time
+- Keep an eye on your inventory
+- Buy supplies in the shop
 
 ## Requirements
 

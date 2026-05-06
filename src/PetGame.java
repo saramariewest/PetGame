@@ -7,17 +7,14 @@ public class PetGame {
 
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setSize(500, 600);
-    frame.setLayout(new GridLayout(2, 2));
+    frame.setLayout(new GridLayout(2, 1));
 
     Pet pet = new Pet();
-    Status statusPanel = new Status();
-    Actions actionsPanel = new Actions();
+    PetSprite sprite = new PetSprite();
+    PetDashboard dashboard = new PetDashboard(pet);
 
-    frame.add(new JLabel("Pet Status"));
-    frame.add(new JLabel("Actions"));
-    frame.add(statusPanel);
-    frame.add(actionsPanel);
-
+    frame.add(sprite);
+    frame.add(dashboard);
     frame.setVisible(true);
   }
 }

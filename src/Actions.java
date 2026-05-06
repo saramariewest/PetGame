@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class Actions extends JPanel {
@@ -20,4 +21,9 @@ public class Actions extends JPanel {
     add(playButton);
     add(sleepButton);
   }
+
+  public void addFeedListener(ActionListener l) { feedButton.addActionListener(l); }
+  public void addDrinkListener(ActionListener l) { drinkButton.addActionListener(l); }
+  public void addPlayListener(ActionListener l) { playButton.addActionListener(l); }
+  public void addSleepListener(ActionListener l) { sleepButton.addActionListener(l); }
 }

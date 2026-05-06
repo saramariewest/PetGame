@@ -36,4 +36,14 @@ public class Pet {
   public void sleep() {
     energy = Math.min(100, energy + 30); // Increase energy level by 30, max 100
   }
+
+  public void passTime() {
+    hunger = Math.max(0, hunger - 5);
+    thirst = Math.max(0, thirst - 5);
+    mood = Math.max(0, mood - 2);
+
+    if (hunger == 0 || thirst == 0) {
+        mood = Math.max(0, mood - 3);
+    }
+  }
 }

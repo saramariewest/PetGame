@@ -23,4 +23,11 @@ public class Status extends JPanel {
     add(new JLabel("Energy"));
     add(energyBar);
   }
+
+  public void updateStatus(Pet pet) {
+    hungerBar.setValue(pet.getHunger());
+    thirstBar.setValue(pet.getThirst());
+    moodBar.setValue(pet.getMood());
+    energyBar.setValue(pet.getEnergy());
+  }
 }

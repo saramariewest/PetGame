@@ -6,7 +6,7 @@ public class PetGame {
     JFrame frame = new JFrame("Pet Game");
 
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(600, 600);
+    frame.setSize(500, 600);
 
     Pet pet = new Pet();
     PetSprite sprite = new PetSprite();
@@ -16,7 +16,7 @@ public class PetGame {
     splitPane.setEnabled(false);
     frame.add(splitPane);
     frame.setVisible(true);
-    splitPane.setDividerLocation(0.7); 
+    splitPane.setDividerLocation(0.6); 
     
     Timer timer = new Timer(10000, (ActionEvent e) -> {
         pet.passTime();

@@ -9,20 +9,19 @@ public class PetDashboard extends JPanel {
 
   public PetDashboard(Pet pet) {
     this.pet = pet;
-    setLayout(new BorderLayout(5, 5));
+    setLayout(new GridLayout(1, 2));
 
     statsPanel = new PetStats();
     suppliesPanel = new PetSupplies();
     actionsPanel = new PetActions();
 
-    JPanel rightPanel = new JPanel(new GridLayout(1, 2, 0, 5));
-    rightPanel.add(suppliesPanel);
-    rightPanel.add(actionsPanel);
+    JPanel leftPanel = new JPanel(new BorderLayout(5,10));
 
-    statsPanel.setPreferredSize(new Dimension(250, 0));
+    leftPanel.add(statsPanel, BorderLayout.NORTH);
+    leftPanel.add(suppliesPanel, BorderLayout.CENTER);
 
-    add(statsPanel, BorderLayout.WEST);
-    add(rightPanel, BorderLayout.CENTER);
+    add(leftPanel);
+    add(actionsPanel);
 
     actionsPanel.addFeedListener(e -> updatePet(pet::feed));
     actionsPanel.addDrinkListener(e -> updatePet(pet::drink));

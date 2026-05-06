@@ -37,3 +37,6 @@ java -cp src Main
 - `Actions.java` — buttons for feed/drink/play/sleep
 - `Status.java` — progress bars for hunger/thirst/mood/energy
 - `PetSprite.java` — placeholder pet display
+- `PetSupplies.java` — buttons for inventory/shop
+- `PetInventory.java` — lists owned items
+- `PetShop.java` — buy more items

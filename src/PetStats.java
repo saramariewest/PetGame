@@ -1,12 +1,12 @@
 import javax.swing.*;
 
-public class Status extends JPanel {
+public class PetStats extends JPanel {
   private final JProgressBar hungerBar;
   private final JProgressBar thirstBar;
   private final JProgressBar moodBar;
   private final JProgressBar energyBar;
 
-  public Status() {
+  public PetStats() {
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
     hungerBar = new JProgressBar(0, 100);
@@ -24,7 +24,7 @@ public class Status extends JPanel {
     add(energyBar);
   }
 
-  public void updateStatus(Pet pet) {
+  public void updateStats(Pet pet) {
     hungerBar.setValue(pet.getHunger());
     thirstBar.setValue(pet.getThirst());
     moodBar.setValue(pet.getMood());

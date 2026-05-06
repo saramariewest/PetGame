@@ -3,33 +3,41 @@ import javax.swing.*;
 
 public class PetDashboard extends JPanel {
   private final Pet pet;
-  private final Status statusPanel;
-  private final Actions actionsPanel;
+  private final PetStats statsPanel;
+  private final PetSupplies suppliesPanel;
+  private final PetActions actionsPanel;
 
   public PetDashboard(Pet pet) {
     this.pet = pet;
-    setLayout(new GridLayout(1, 2));
+    setLayout(new BorderLayout(5, 5));
 
-    statusPanel = new Status();
-    actionsPanel = new Actions();
+    statsPanel = new PetStats();
+    suppliesPanel = new PetSupplies();
+    actionsPanel = new PetActions();
 
-    add(statusPanel);
-    add(actionsPanel);
+    JPanel rightPanel = new JPanel(new GridLayout(1, 2, 0, 5));
+    rightPanel.add(suppliesPanel);
+    rightPanel.add(actionsPanel);
+
+    statsPanel.setPreferredSize(new Dimension(250, 0));
+
+    add(statsPanel, BorderLayout.WEST);
+    add(rightPanel, BorderLayout.CENTER);
 
     actionsPanel.addFeedListener(e -> updatePet(pet::feed));
     actionsPanel.addDrinkListener(e -> updatePet(pet::drink));
     actionsPanel.addPlayListener(e -> updatePet(pet::play));
     actionsPanel.addSleepListener(e -> updatePet(pet::sleep));
 
-    statusPanel.updateStatus(pet);
+    statsPanel.updateStats(pet);
   }
 
   private void updatePet(Runnable action) {
     action.run();
-    statusPanel.updateStatus(pet);
+    statsPanel.updateStats(pet);
   }
 
   public void updateDashboard() {
-    statusPanel.updateStatus(pet);
+    statsPanel.updateStats(pet);
   }
 }

@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 public class PetGame {
@@ -16,5 +17,11 @@ public class PetGame {
     frame.add(sprite);
     frame.add(dashboard);
     frame.setVisible(true);
+
+    Timer timer = new Timer(1000, (ActionEvent e) -> {
+        pet.passTime();
+        dashboard.updateDashboard();
+    });
+    timer.start();
   }
 }

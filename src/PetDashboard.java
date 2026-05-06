@@ -28,4 +28,8 @@ public class PetDashboard extends JPanel {
     action.run();
     statusPanel.updateStatus(pet);
   }
+
+  public void updateDashboard() {
+    statusPanel.updateStatus(pet);
+  }
 }

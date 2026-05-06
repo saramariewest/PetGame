@@ -1,28 +1,37 @@
 # Pet Game
 
-## What is it?
+## Overview
 
-A small Java Swing game with a virtual pet that has hunger, thirst, mood, and energy levels.
+A simple Java Swing pet game with status bars and action buttons.
 
 ## Features
 
-- `Pet` class with four status values
-- `Status` panel with progress bars for each value
-- `Actions` panel with buttons: Feed, Drink, Play, Sleep
-- `PetGame` main class builds the window
-
-## Controls
-
-- `Feed`: increases hunger by 20, max 100
-- `Drink`: increases thirst by 20, max 100
-- `Play`: increases mood by 20, decreases energy by 10
-- `Sleep`: increases energy by 30, max 100
+- Feed the pet
+- Give the pet water
+- Play with the pet
+- Let the pet sleep
+- Pet stats decay over time
 
 ## Requirements
 
-- Java JDK 8+ (Java Swing is part of the standard JDK)
+- Java 8 or higher
+- Swing available (part of the standard JDK)
 
-## Run
+## Running
 
-- Compile: `javac src\*.java`
-- Run: `java -cp src PetGame`
+From the project root:
+
+```bash
+javac src/*.java
+java -cp src Main
+```
+
+## Project structure
+
+- `Main.java` — application entry point
+- `PetGame.java` — creates the window, sprite, dashboard, and timer
+- `Pet.java` — pet state and actions
+- `PetDashboard.java` — combines status and actions panels
+- `Actions.java` — buttons for feed/drink/play/sleep
+- `Status.java` — progress bars for hunger/thirst/mood/energy
+- `PetSprite.java` — placeholder pet display

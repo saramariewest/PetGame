@@ -1,17 +1,21 @@
+
 import java.awt.*;
 import javax.swing.*;
 
 public class PetSupplies extends JPanel {
-  private final JButton inventoryButton;
-  private final JButton shopButton;
 
-  public PetSupplies() {
-    setLayout(new GridLayout(2, 1));
+    private final JButton inventoryButton;
+    private final JButton shopButton;
 
-    inventoryButton = new JButton("Inventory");
-    shopButton = new JButton("Shop");
+    public PetSupplies() {
+        setLayout(new GridLayout(2, 1));
 
-    add(inventoryButton);
-    add(shopButton);
-  }
+        inventoryButton = new JButton("Inventory");
+        shopButton = new JButton("Shop");
+
+        shopButton.addActionListener(e -> new PetShop());
+
+        add(inventoryButton);
+        add(shopButton);
+    }
 }

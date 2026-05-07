@@ -1,42 +1,45 @@
+
 import java.awt.*;
 import javax.swing.*;
 
 public class PetDashboard extends JPanel {
-  private final Pet pet;
-  private final PetStats statsPanel;
-  private final PetSupplies suppliesPanel;
-  private final PetActions actionsPanel;
 
-  public PetDashboard(Pet pet) {
-    this.pet = pet;
-    setLayout(new GridLayout(1, 2));
+    private final Pet pet;
+    private final PetStats statsPanel;
+    private final PetSupplies suppliesPanel;
+    private final PetActions actionsPanel;
+    private final JPanel leftPanel;
 
-    statsPanel = new PetStats();
-    suppliesPanel = new PetSupplies();
-    actionsPanel = new PetActions();
+    public PetDashboard(Pet pet) {
+        this.pet = pet;
+        setLayout(new GridLayout(1, 2));
 
-    JPanel leftPanel = new JPanel(new BorderLayout(5,10));
+        statsPanel = new PetStats();
+        suppliesPanel = new PetSupplies();
+        actionsPanel = new PetActions();
 
-    leftPanel.add(statsPanel, BorderLayout.NORTH);
-    leftPanel.add(suppliesPanel, BorderLayout.CENTER);
+        leftPanel = new JPanel(new BorderLayout(5, 10));
 
-    add(leftPanel);
-    add(actionsPanel);
+        leftPanel.add(statsPanel, BorderLayout.NORTH);
+        leftPanel.add(suppliesPanel, BorderLayout.CENTER);
 
-    actionsPanel.addFeedListener(e -> updatePet(pet::feed));
-    actionsPanel.addDrinkListener(e -> updatePet(pet::drink));
-    actionsPanel.addPlayListener(e -> updatePet(pet::play));
-    actionsPanel.addSleepListener(e -> updatePet(pet::sleep));
+        add(leftPanel);
+        add(actionsPanel);
 
-    statsPanel.updateStats(pet);
-  }
+        actionsPanel.addFeedListener(e -> updatePet(pet::feed));
+        actionsPanel.addDrinkListener(e -> updatePet(pet::drink));
+        actionsPanel.addPlayListener(e -> updatePet(pet::play));
+        actionsPanel.addSleepListener(e -> updatePet(pet::sleep));
 
-  private void updatePet(Runnable action) {
-    action.run();
-    statsPanel.updateStats(pet);
-  }
+        statsPanel.updateStats(pet);
+    }
 
-  public void updateDashboard() {
-    statsPanel.updateStats(pet);
-  }
+    private void updatePet(Runnable action) {
+        action.run();
+        statsPanel.updateStats(pet);
+    }
+
+    public void updateDashboard() {
+        statsPanel.updateStats(pet);
+    }
 }

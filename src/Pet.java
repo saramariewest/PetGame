@@ -1,10 +1,9 @@
-
 public class Pet {
 
-    private int hunger = 100;   // 0 = starving, 100 = full
-    private int thirst = 100;   // 0 = dehydrated, 100 = quenched
-    private int mood = 100;     // 0 = sad, 100 = happy
-    private int energy = 100;   //  0 = exhausted, 100 = energetic
+    private int hunger = 100; // 0 = starving, 100 = full
+    private int thirst = 100; // 0 = dehydrated, 100 = quenched
+    private int mood = 100; // 0 = sad, 100 = happy
+    private int energy = 100; // 0 = exhausted, 100 = energetic
 
     public int getHunger() {
         return hunger;

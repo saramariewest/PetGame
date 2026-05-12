@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import javax.swing.*;
 
@@ -21,7 +20,7 @@ public class PetShop {
     public PetShop() {
         shop = new JFrame("Shop");
         shop.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        shop.setSize(400, 300);
+        shop.setSize(400, 400);
         shop.setLocationRelativeTo(null);
 
         shop.setLayout(new GridLayout(3, 1));

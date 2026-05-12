@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import javax.swing.*;
 
@@ -12,7 +11,8 @@ public class PetDashboard extends JPanel {
 
     public PetDashboard(Pet pet) {
         this.pet = pet;
-        setLayout(new GridLayout(1, 2));
+        setLayout(new GridLayout(1, 2, 10, 10));
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         statsPanel = new PetStats();
         suppliesPanel = new PetSupplies();

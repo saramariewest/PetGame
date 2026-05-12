@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 
 public class PetStats extends JPanel {
@@ -9,20 +8,24 @@ public class PetStats extends JPanel {
     private final JProgressBar energyBar;
 
     public PetStats() {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
         hungerBar = new JProgressBar(0, 100);
         thirstBar = new JProgressBar(0, 100);
         moodBar = new JProgressBar(0, 100);
         energyBar = new JProgressBar(0, 100);
 
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
         add(new JLabel("Hunger"));
+        add(Box.createVerticalStrut(5));
         add(hungerBar);
         add(new JLabel("Thirst"));
+        add(Box.createVerticalStrut(5));
         add(thirstBar);
         add(new JLabel("Mood"));
+        add(Box.createVerticalStrut(5));
         add(moodBar);
         add(new JLabel("Energy"));
+        add(Box.createVerticalStrut(5));
         add(energyBar);
     }
 

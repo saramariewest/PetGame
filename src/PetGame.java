@@ -1,4 +1,4 @@
-
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
@@ -8,23 +8,36 @@ public class PetGame {
         JFrame frame = new JFrame("Pet Game");
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 600);
+        frame.setSize(700, 800);
         frame.setLocationRelativeTo(null);
 
+        Player player = new Player();
+        PlayerStats playerStats = new PlayerStats();
         Pet pet = new Pet();
+
         PetSprite sprite = new PetSprite();
         PetDashboard dashboard = new PetDashboard(pet);
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, sprite, dashboard);
-        splitPane.setEnabled(false);
-        frame.add(splitPane);
-        frame.setVisible(true);
-        splitPane.setDividerLocation(0.6);
+        playerStats.setPreferredSize(new Dimension(0, 50));
+        dashboard.setPreferredSize(new Dimension(0, 250));
 
-        Timer timer = new Timer(10000, (ActionEvent e) -> {
+        JPanel mainPanel = new JPanel(new BorderLayout(0, 0));
+        mainPanel.add(playerStats, BorderLayout.NORTH);
+        mainPanel.add(sprite, BorderLayout.CENTER);
+        mainPanel.add(dashboard, BorderLayout.SOUTH);
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+
+        frame.add(mainPanel);
+        frame.setVisible(true);
+
+        Timer timer = new Timer(5000, (ActionEvent e) -> {
             pet.passTime();
             dashboard.updateDashboard();
+            player.passTime();
+            playerStats.updateStats(player);
+
         });
         timer.start();
     }
 }
+

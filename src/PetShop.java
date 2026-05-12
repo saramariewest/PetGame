@@ -1,4 +1,4 @@
-import java.awt.*;
+import java.awt.GridLayout;
 import javax.swing.*;
 
 public class PetShop {
@@ -7,17 +7,10 @@ public class PetShop {
     private final JPanel foodPanel;
     private final JPanel drinkPanel;
     private final JPanel toyPanel;
-    private final JButton cerealButton;
-    private final JButton sushiButton;
-    private final JButton cakeButton;
-    private final JButton waterButton;
-    private final JButton energyDrinkButton;
-    private final JButton juiceButton;
-    private final JButton ballButton;
-    private final JButton skateboardButton;
-    private final JButton consoleButton;
+    private final Player player;
 
-    public PetShop() {
+    public PetShop(Player player) {
+        this.player = player;
         shop = new JFrame("Shop");
         shop.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         shop.setSize(400, 400);
@@ -33,30 +26,18 @@ public class PetShop {
         drinkPanel.setBorder(BorderFactory.createTitledBorder("Drinks"));
         toyPanel.setBorder(BorderFactory.createTitledBorder("Toys"));
 
-        cerealButton = new JButton("Cereal");
-        sushiButton = new JButton("Sushi");
-        cakeButton = new JButton("Cake");
-        waterButton = new JButton("Water");
-        energyDrinkButton = new JButton("Energy Drink");
-        juiceButton = new JButton("Juice");
-        ballButton = new JButton("Ball");
-        skateboardButton = new JButton("Skateboard");
-        consoleButton = new JButton("Console");
-
-        foodPanel.setLayout(new GridLayout(0, 3));
-        foodPanel.add(cerealButton);
-        foodPanel.add(sushiButton);
-        foodPanel.add(cakeButton);
-
-        drinkPanel.setLayout(new GridLayout(0, 3));
-        drinkPanel.add(waterButton);
-        drinkPanel.add(energyDrinkButton);
-        drinkPanel.add(juiceButton);
-
-        toyPanel.setLayout(new GridLayout(0, 3));
-        toyPanel.add(ballButton);
-        toyPanel.add(skateboardButton);
-        toyPanel.add(consoleButton);
+        for (Items item : Items.values()) {
+            final Items currentItem = item;
+            JButton button = new JButton(currentItem.displayName);
+            button.addActionListener(e -> {
+            });
+            switch (item.type) {
+                case FOOD -> foodPanel.add(button);
+                case DRINK -> drinkPanel.add(button);
+                case TOY -> toyPanel.add(button);
+            }
+            player.getMapping().put(currentItem, currentItem.displayName);
+        }
 
         shop.add(foodPanel);
         shop.add(drinkPanel);

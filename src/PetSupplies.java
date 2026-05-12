@@ -5,14 +5,17 @@ public class PetSupplies extends JPanel {
 
     private final JButton inventoryButton;
     private final JButton shopButton;
+    private final Player player;
 
-    public PetSupplies() {
+    public PetSupplies(Player player) {
+        this.player = player;
         setLayout(new GridLayout(2, 1));
 
         inventoryButton = new JButton("Inventory");
         shopButton = new JButton("Shop");
 
-        shopButton.addActionListener(e -> new PetShop());
+        inventoryButton.addActionListener(e -> new PetInventory());
+        shopButton.addActionListener(e -> new PetShop(player));
 
         add(inventoryButton);
         add(shopButton);

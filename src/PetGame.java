@@ -16,7 +16,7 @@ public class PetGame {
         Pet pet = new Pet();
 
         PetSprite sprite = new PetSprite();
-        PetDashboard dashboard = new PetDashboard(pet);
+        PetDashboard dashboard = new PetDashboard(pet, player);
 
         playerStats.setPreferredSize(new Dimension(0, 50));
         dashboard.setPreferredSize(new Dimension(0, 250));
@@ -40,4 +40,3 @@ public class PetGame {
         timer.start();
     }
 }
-

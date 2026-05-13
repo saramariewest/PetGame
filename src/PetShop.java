@@ -23,20 +23,28 @@ public class PetShop {
         toyPanel = new JPanel();
 
         foodPanel.setBorder(BorderFactory.createTitledBorder("Food"));
+        foodPanel.setLayout(new GridLayout(1, 3));
         drinkPanel.setBorder(BorderFactory.createTitledBorder("Drinks"));
+        drinkPanel.setLayout(new GridLayout(1, 3));
         toyPanel.setBorder(BorderFactory.createTitledBorder("Toys"));
+        toyPanel.setLayout(new GridLayout(1, 3));
 
-        for (Items item : Items.values()) {
-            final Items currentItem = item;
+        for (Items currentItem : Items.values()) {
             JButton button = new JButton(currentItem.displayName);
             button.addActionListener(e -> {
+                if (player.getCoins() >= currentItem.price) {
+                    int newValue = player.getCoins() - currentItem.price;
+                    player.setCoins(newValue);
+                    var x = player.getMapping().get(currentItem);
+                    player.getMapping().put(currentItem, x++);
+                }
             });
-            switch (item.type) {
+            switch (currentItem.type) {
                 case FOOD -> foodPanel.add(button);
                 case DRINK -> drinkPanel.add(button);
                 case TOY -> toyPanel.add(button);
             }
-            player.getMapping().put(currentItem, currentItem.displayName);
+            player.getMapping().put(currentItem, 5);
         }
 
         shop.add(foodPanel);

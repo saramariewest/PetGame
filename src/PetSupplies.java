@@ -14,7 +14,7 @@ public class PetSupplies extends JPanel {
         inventoryButton = new JButton("Inventory");
         shopButton = new JButton("Shop");
 
-        inventoryButton.addActionListener(e -> new PetInventory());
+        inventoryButton.addActionListener(e -> new PetInventory(player));
         shopButton.addActionListener(e -> new PetShop(player));
 
         add(inventoryButton);

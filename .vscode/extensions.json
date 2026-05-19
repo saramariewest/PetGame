@@ -1,7 +1,6 @@
 {
   "recommendations": [
     "codezombiech.gitignore",
-    "eamodio.gitlens", 
     "ms-vscode.vscode-json"
   ]
 }

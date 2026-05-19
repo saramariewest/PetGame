@@ -2,7 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Player {
-  private int coins = 0;
+  private int coins = 100;
   private Map<Items, Integer> mapping = new HashMap<>();
 
   public int getCoins() {
@@ -11,7 +11,7 @@ public class Player {
 
   public void setCoins(int coins) {
     this.coins = coins;
-  } 
+  }
 
   public void passTime() {
     coins += 5;

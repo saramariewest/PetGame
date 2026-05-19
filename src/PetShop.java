@@ -44,7 +44,7 @@ public class PetShop {
                 case DRINK -> drinkPanel.add(button);
                 case TOY -> toyPanel.add(button);
             }
-            player.getMapping().put(currentItem, 5);
+            // player.getMapping().put(currentItem, 5);
         }
 
         shop.add(foodPanel);

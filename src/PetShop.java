@@ -33,18 +33,21 @@ public class PetShop {
             JButton button = new JButton(currentItem.displayName);
             button.addActionListener(e -> {
                 if (player.getCoins() >= currentItem.price) {
-                    int newValue = player.getCoins() - currentItem.price;
-                    player.setCoins(newValue);
-                    var x = player.getMapping().get(currentItem);
-                    player.getMapping().put(currentItem, x++);
+                    player.setCoins(player.getCoins() - currentItem.price);
+                    int old = player.getMapping().getOrDefault(currentItem, 0);
+                    player.getMapping().put(currentItem, old + 1);
+
+                    PetInventory inv = player.getInventoryWindow();
+                    if (inv != null)
+                        inv.updateLabel(currentItem);
                 }
             });
+
             switch (currentItem.type) {
                 case FOOD -> foodPanel.add(button);
                 case DRINK -> drinkPanel.add(button);
                 case TOY -> toyPanel.add(button);
             }
-            // player.getMapping().put(currentItem, 5);
         }
 
         shop.add(foodPanel);

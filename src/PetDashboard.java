@@ -18,7 +18,7 @@ public class PetDashboard extends JPanel {
 
         statsPanel = new PetStats();
         suppliesPanel = new PetSupplies(player);
-        actionsPanel = new PetActions();
+        actionsPanel = new PetActions(player.getMapping());
 
         leftPanel = new JPanel(new BorderLayout(5, 10));
 

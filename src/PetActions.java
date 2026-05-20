@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.Map;
 import javax.swing.*;
 
 public class PetActions extends JPanel {
@@ -8,8 +9,10 @@ public class PetActions extends JPanel {
     private final JButton drinkButton;
     private final JButton playButton;
     private final JButton sleepButton;
+    private Map<Items, Integer> stock;
 
-    public PetActions() {
+    public PetActions(Map<Items, Integer> stock) {
+        this.stock = stock;
         setLayout(new GridLayout(2, 2));
 
         feedButton = new JButton("Feed");

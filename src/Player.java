@@ -4,6 +4,7 @@ import java.util.Map;
 public class Player {
   private int coins = 100;
   private Map<Items, Integer> mapping = new HashMap<>();
+  private PetInventory inventoryWindow;
 
   public int getCoins() {
     return coins;
@@ -24,4 +25,13 @@ public class Player {
   public void setMapping(Map<Items, Integer> mapping) {
     this.mapping = mapping;
   }
+
+  public void setInventoryWindow(PetInventory inv) {
+    this.inventoryWindow = inv;
+  }
+
+  public PetInventory getInventoryWindow() {
+    return inventoryWindow;
+  }
+
 }

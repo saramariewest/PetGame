@@ -28,9 +28,32 @@ public class PetDashboard extends JPanel {
         add(leftPanel);
         add(actionsPanel);
 
-        actionsPanel.addFeedListener(e -> updatePet(pet::feed));
-        actionsPanel.addDrinkListener(e -> updatePet(pet::drink));
-        actionsPanel.addPlayListener(e -> updatePet(pet::play));
+        actionsPanel.addFeedListener(e -> {
+            if (player.useItem(Type.FOOD)) {
+                updatePet(pet::feed);
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "No food in inventory!");
+            }
+        });
+
+        actionsPanel.addDrinkListener(e -> {
+            if (player.useItem(Type.DRINK)) {
+                updatePet(pet::drink);
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "No drinks in inventory!");
+            }
+        });
+
+        actionsPanel.addPlayListener(e -> {
+            if (player.useItem(Type.TOY)) {
+                updatePet(pet::play);
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "No toys in inventory!");
+            }
+        });
         actionsPanel.addSleepListener(e -> updatePet(pet::sleep));
 
         statsPanel.updateStats(pet);

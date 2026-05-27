@@ -4,6 +4,7 @@ import java.awt.event.WindowEvent;
 import java.util.*;
 import javax.swing.*;
 
+// This window shows how many items the player owns.
 public class PetInventory {
 
   private final JFrame inventory;

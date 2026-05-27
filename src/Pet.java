@@ -1,3 +1,4 @@
+// This class stores the current state of the pet.
 public class Pet {
 
     private int hunger = 100; // 0 = starving, 100 = full
@@ -51,6 +52,7 @@ public class Pet {
     }
 
     public void passTime() {
+        // These values get worse while the game is running.
         hunger = Math.max(0, hunger - 5);
         thirst = Math.max(0, thirst - 5);
         mood = Math.max(0, mood - 2);

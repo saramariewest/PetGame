@@ -2,6 +2,7 @@ import java.awt.*;
 import java.util.Arrays;
 import javax.swing.*;
 
+// This panel combines the pet stats, supply buttons, and action buttons.
 public class PetDashboard extends JPanel {
 
     private final Pet pet;
@@ -19,7 +20,7 @@ public class PetDashboard extends JPanel {
 
         statsPanel = new PetStats();
         suppliesPanel = new PetSupplies(player, playerStats);
-        actionsPanel = new PetActions(player.getInventory());
+        actionsPanel = new PetActions();
 
         leftPanel = new JPanel(new BorderLayout(5, 10));
 
@@ -61,6 +62,7 @@ public class PetDashboard extends JPanel {
     }
 
     private Items selectItem(Type type, String title) {
+        // Only show items that match the action and are still in the inventory.
         if (!player.hasItem(type)) {
             JOptionPane.showMessageDialog(this, "No " + type.name().toLowerCase() + " in inventory!");
             return null;

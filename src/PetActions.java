@@ -1,18 +1,16 @@
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.Map;
 import javax.swing.*;
 
+// This panel only contains the action buttons.
 public class PetActions extends JPanel {
 
     private final JButton feedButton;
     private final JButton drinkButton;
     private final JButton playButton;
     private final JButton sleepButton;
-    private Map<Items, Integer> stock;
 
-    public PetActions(Map<Items, Integer> stock) {
-        this.stock = stock;
+    public PetActions() {
         setLayout(new GridLayout(2, 2));
 
         feedButton = new JButton("Feed");
@@ -26,6 +24,7 @@ public class PetActions extends JPanel {
         add(sleepButton);
     }
 
+    // The dashboard decides what happens when a button is clicked.
     public void addFeedListener(ActionListener l) {
         feedButton.addActionListener(l);
     }

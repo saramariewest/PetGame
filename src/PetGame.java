@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
+// This class builds the main window of the game.
 public class PetGame {
 
     public PetGame() {
@@ -31,6 +32,7 @@ public class PetGame {
         playerStats.updateStats(player);
         frame.setVisible(true);
 
+        // The timer is the simple game loop of this project.
         Timer timer = new Timer(5000, (ActionEvent e) -> {
             pet.passTime();
             dashboard.updateDashboard();

@@ -1,6 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 
+// This panel opens the inventory and shop windows.
 public class PetSupplies extends JPanel {
 
     private final JButton inventoryButton;
@@ -16,6 +17,7 @@ public class PetSupplies extends JPanel {
         inventoryButton = new JButton("Inventory");
         shopButton = new JButton("Shop");
 
+        // Both buttons open a separate window.
         inventoryButton.addActionListener(e -> new PetInventory(player));
         shopButton.addActionListener(e -> new PetShop(player, playerStats));
 

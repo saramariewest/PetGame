@@ -12,6 +12,7 @@ public enum Items {
     public final String displayName;
     public final Type type;
     public final int price;
+    // Points decide how much the item improves the pet value.
     public final int points;
 
     Items(String displayName, Type type, int price, int points) {

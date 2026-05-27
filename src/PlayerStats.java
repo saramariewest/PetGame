@@ -1,6 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 
+// This panel shows information about the player.
 public class PlayerStats extends JPanel {
 
     private final JLabel coinLabel;
@@ -11,6 +12,7 @@ public class PlayerStats extends JPanel {
         add(coinLabel);
     }
 
+    // Refresh the coin label after the player earns or spends coins.
     public void updateStats(Player player) {
         coinLabel.setText("Coins:   " + player.getCoins());
     }

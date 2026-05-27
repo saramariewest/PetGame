@@ -4,7 +4,7 @@ import java.util.Map;
 public class Player {
 
   private int coins = 100;
-  private Map<Items, Integer> mapping = new HashMap<>();
+  private Map<Items, Integer> inventory = new HashMap<>();
   private PetInventory inventoryWindow;
 
   public int getCoins() {
@@ -19,12 +19,12 @@ public class Player {
     coins += 5;
   }
 
-  public Map<Items, Integer> getMapping() {
-    return mapping;
+  public Map<Items, Integer> getInventory() {
+    return inventory;
   }
 
-  public void setMapping(Map<Items, Integer> mapping) {
-    this.mapping = mapping;
+  public void setInventory(Map<Items, Integer> inventory) {
+    this.inventory = inventory;
   }
 
   public void setInventoryWindow(PetInventory inv) {
@@ -35,24 +35,33 @@ public class Player {
     return inventoryWindow;
   }
 
-  public boolean useItem(Type type) {
-
-    for (Items item : mapping.keySet()) {
-
-      int amount = mapping.get(item);
-
-      if (item.type == type && amount > 0) {
-
-        mapping.put(item, amount - 1);
-
-        if (mapping.get(item) <= 0) {
-          mapping.remove(item);
-        }
-
+  public boolean hasItem(Type type) {
+    for (Map.Entry<Items, Integer> entry : inventory.entrySet()) {
+      if (entry.getKey().type == type && entry.getValue() > 0) {
         return true;
       }
     }
 
     return false;
+  }
+
+  public boolean useItem(Items item) {
+    int amount = inventory.getOrDefault(item, 0);
+
+    if (amount <= 0) {
+      return false;
+    }
+
+    inventory.put(item, amount - 1);
+
+    if (inventory.get(item) <= 0) {
+      inventory.remove(item);
+    }
+
+    if (inventoryWindow != null) {
+      inventoryWindow.updateLabel(item);
+    }
+
+    return true;
   }
 }

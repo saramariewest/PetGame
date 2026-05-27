@@ -1,42 +1,76 @@
 # Pet Game
 
-## Overview
+## Description
 
-A simple Java Swing pet game with status bars and action buttons.
+Pet Game is a small Java Swing project. The player takes care of a virtual pet with values like hunger, thirst, mood, and energy. These values can be improved through actions and decrease over time.
+
+The game also has a player with coins, an inventory, and a shop. Items can be bought in the shop and then used for feeding, drinking, or playing.
 
 ## Features
 
 - Feed the pet
-- Give the pet water
+- Give the pet something to drink
 - Play with the pet
 - Let the pet sleep
-- Pet stats decay over time
-- Keep an eye on your inventory
-- Buy supplies in the shop
+- Pet values decrease automatically over time
+- Player earns coins regularly
+- Buy items in the shop
+- Show bought items in the inventory
+- Different items have different prices and points
 
 ## Requirements
 
-- Java 8 or higher
-- Swing available (part of the standard JDK)
+- Java JDK, Java 17 or newer recommended
+- No external libraries needed
+- Swing is included in the JDK
 
-## Running
+## Run
 
-From the project root:
+From the project folder:
 
-```bash
-javac src/*.java
-java -cp src Main
+```powershell
+New-Item -ItemType Directory -Force -Path bin
+javac -d bin src\*.java
+java -cp bin Main
 ```
 
-## Project structure
+On Linux or macOS:
 
-- `Main.java` — application entry point
-- `PetGame.java` — creates the window, sprite, dashboard, and timer
-- `Pet.java` — pet state and actions
-- `PetDashboard.java` — combines status and actions panels
-- `Actions.java` — buttons for feed/drink/play/sleep
-- `Status.java` — progress bars for hunger/thirst/mood/energy
-- `PetSprite.java` — placeholder pet display
-- `PetSupplies.java` — buttons for inventory/shop
-- `PetInventory.java` — lists owned items
-- `PetShop.java` — buy more items
+```bash
+mkdir -p bin
+javac -d bin src/*.java
+java -cp bin Main
+```
+
+## Project Structure
+
+- `Main.java` starts the program.
+- `PetGame.java` creates the main window and the timer.
+- `Pet.java` stores the pet values and actions.
+- `Player.java` stores the player's coins and inventory.
+- `Items.java` contains the available shop items.
+- `Type.java` separates items into Food, Drink, and Toy.
+- `PetDashboard.java` connects the status display, buttons, and supply area.
+- `PetActions.java` contains the action buttons.
+- `PetStats.java` shows hunger, thirst, mood, and energy.
+- `PlayerStats.java` shows the player's coins.
+- `PetSupplies.java` contains the buttons for inventory and shop.
+- `PetInventory.java` shows bought items.
+- `PetShop.java` allows the player to buy new items.
+- `PetSprite.java` is currently a placeholder for the pet graphic.
+
+## Learning Goals
+
+This project is mainly used to practice these basics:
+
+- Classes and objects in Java
+- Simple Swing components
+- `JFrame`, `JPanel`, `JButton`, `JLabel`, and `JProgressBar`
+- `ActionListener` for button clicks
+- `Timer` for repeated game actions
+- `Map` for a simple inventory
+- Splitting a program into several classes
+
+## Notes
+
+Compiled `.class` files are not part of the source code and are ignored through `.gitignore`. The `bin` folder is only used as the output folder when compiling the project.

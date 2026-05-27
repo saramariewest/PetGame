@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.Arrays;
 import javax.swing.*;
 
 public class PetDashboard extends JPanel {
@@ -10,15 +11,15 @@ public class PetDashboard extends JPanel {
     private final JPanel leftPanel;
     private final Player player;
 
-    public PetDashboard(Pet pet, Player player) {
+    public PetDashboard(Pet pet, Player player, PlayerStats playerStats) {
         this.pet = pet;
         this.player = player;
         setLayout(new GridLayout(1, 2, 10, 10));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         statsPanel = new PetStats();
-        suppliesPanel = new PetSupplies(player);
-        actionsPanel = new PetActions(player.getMapping());
+        suppliesPanel = new PetSupplies(player, playerStats);
+        actionsPanel = new PetActions(player.getInventory());
 
         leftPanel = new JPanel(new BorderLayout(5, 10));
 
@@ -29,39 +30,55 @@ public class PetDashboard extends JPanel {
         add(actionsPanel);
 
         actionsPanel.addFeedListener(e -> {
-            if (player.useItem(Type.FOOD)) {
-                updatePet(pet::feed);
-            } else {
-                JOptionPane.showMessageDialog(this,
-                        "No food in inventory!");
+            Items item = selectItem(Type.FOOD, "Choose food");
+            if (item != null && player.useItem(item)) {
+                pet.feed(item.points);
+                statsPanel.updateStats(pet);
             }
         });
 
         actionsPanel.addDrinkListener(e -> {
-            if (player.useItem(Type.DRINK)) {
-                updatePet(pet::drink);
-            } else {
-                JOptionPane.showMessageDialog(this,
-                        "No drinks in inventory!");
+            Items item = selectItem(Type.DRINK, "Choose drink");
+            if (item != null && player.useItem(item)) {
+                pet.drink(item.points);
+                statsPanel.updateStats(pet);
             }
         });
 
         actionsPanel.addPlayListener(e -> {
-            if (player.useItem(Type.TOY)) {
-                updatePet(pet::play);
-            } else {
-                JOptionPane.showMessageDialog(this,
-                        "No toys in inventory!");
+            Items item = selectItem(Type.TOY, "Choose toy");
+            if (item != null && player.useItem(item)) {
+                pet.play(item.points);
+                statsPanel.updateStats(pet);
             }
         });
-        actionsPanel.addSleepListener(e -> updatePet(pet::sleep));
+        actionsPanel.addSleepListener(e -> {
+            pet.sleep();
+            statsPanel.updateStats(pet);
+        });
 
         statsPanel.updateStats(pet);
     }
 
-    private void updatePet(Runnable action) {
-        action.run();
-        statsPanel.updateStats(pet);
+    private Items selectItem(Type type, String title) {
+        if (!player.hasItem(type)) {
+            JOptionPane.showMessageDialog(this, "No " + type.name().toLowerCase() + " in inventory!");
+            return null;
+        }
+
+        Items[] availableItems = Arrays.stream(Items.values())
+                .filter(item -> item.type == type)
+                .filter(item -> player.getInventory().getOrDefault(item, 0) > 0)
+                .toArray(Items[]::new);
+
+        return (Items) JOptionPane.showInputDialog(
+                this,
+                "Which item do you want to use?",
+                title,
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                availableItems,
+                availableItems[0]);
     }
 
     public void updateDashboard() {

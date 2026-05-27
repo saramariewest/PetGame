@@ -1,0 +1,23 @@
+{
+  "java.project.sourcePaths": [
+    "src"
+  ],
+  "java.project.outputPath": "bin",
+  "java.project.referencedLibraries": [
+    "lib/**/*.jar"
+  ],
+  "files.exclude": {
+    "**/.git": true,
+    "**/*.class": true,
+    "**/bin": true
+  },
+  "search.exclude": {
+    "**/bin": true,
+    "**/*.class": true
+  },
+  "[java]": {
+    "editor.defaultFormatter": "redhat.java",
+    "editor.formatOnSave": true
+  }
+}
+

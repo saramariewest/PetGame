@@ -16,7 +16,7 @@ public class PetGame {
         Pet pet = new Pet();
 
         PetSprite sprite = new PetSprite();
-        PetDashboard dashboard = new PetDashboard(pet, player);
+        PetDashboard dashboard = new PetDashboard(pet, player, playerStats);
 
         playerStats.setPreferredSize(new Dimension(0, 50));
         dashboard.setPreferredSize(new Dimension(0, 250));
@@ -28,6 +28,7 @@ public class PetGame {
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
         frame.add(mainPanel);
+        playerStats.updateStats(player);
         frame.setVisible(true);
 
         Timer timer = new Timer(5000, (ActionEvent e) -> {

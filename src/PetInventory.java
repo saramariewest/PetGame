@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.*;
 import javax.swing.*;
 
@@ -15,9 +17,19 @@ public class PetInventory {
     this.player = player;
     inventory = new JFrame("Inventory");
     inventory.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    inventory.setSize(400, 400);
+    inventory.setSize(600, 400);
     inventory.setLocationRelativeTo(null);
     inventory.setLayout(new GridLayout(3, 1));
+    player.setInventoryWindow(this);
+
+    inventory.addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosed(WindowEvent e) {
+        if (player.getInventoryWindow() == PetInventory.this) {
+          player.setInventoryWindow(null);
+        }
+      }
+    });
 
     foodPanel = new JPanel();
     foodPanel.setBorder(BorderFactory.createTitledBorder("Food"));
@@ -32,7 +44,7 @@ public class PetInventory {
     for (Items item : Items.values()) {
       JPanel panel = new JPanel(new BorderLayout());
       panel.setBorder(BorderFactory.createTitledBorder(item.displayName));
-      JLabel count = new JLabel(String.valueOf(player.getMapping().getOrDefault(item, 0)), SwingConstants.CENTER);
+      JLabel count = new JLabel(String.valueOf(player.getInventory().getOrDefault(item, 0)), SwingConstants.CENTER);
       panel.add(count, BorderLayout.CENTER);
       countLabels.put(item, count);
 
@@ -42,7 +54,7 @@ public class PetInventory {
         case TOY -> toyPanel.add(panel);
       }
 
-      player.getMapping().putIfAbsent(item, 0);
+      player.getInventory().putIfAbsent(item, 0);
     }
 
     inventory.add(foodPanel);
@@ -54,7 +66,7 @@ public class PetInventory {
   public void updateLabel(Items item) {
     JLabel lbl = countLabels.get(item);
     if (lbl != null) {
-      SwingUtilities.invokeLater(() -> lbl.setText(String.valueOf(player.getMapping().getOrDefault(item, 0))));
+      SwingUtilities.invokeLater(() -> lbl.setText(String.valueOf(player.getInventory().getOrDefault(item, 0))));
     }
   }
 }

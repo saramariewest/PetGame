@@ -22,20 +22,32 @@ public class Pet {
     }
 
     public void feed() {
-        hunger = Math.min(100, hunger + 10); // Increase hunger level by 10, max 100
+        feed(10);
+    }
+
+    public void feed(int amount) {
+        hunger = Math.min(100, hunger + amount);
     }
 
     public void drink() {
-        thirst = Math.min(100, thirst + 10); // Increase thirst level by 10, max 100
+        drink(10);
+    }
+
+    public void drink(int amount) {
+        thirst = Math.min(100, thirst + amount);
     }
 
     public void play() {
-        mood = Math.min(100, mood + 10); // Increase mood level by 10, max 100
-        energy = Math.max(0, energy - 10); // Decrease energy level by 10, min 0
+        play(10);
+    }
+
+    public void play(int moodBoost) {
+        mood = Math.min(100, mood + moodBoost);
+        energy = Math.max(0, energy - 10);
     }
 
     public void sleep() {
-        energy = Math.min(100, energy + 20); // Increase energy level by 20, max 100
+        energy = Math.min(100, energy + 20);
     }
 
     public void passTime() {

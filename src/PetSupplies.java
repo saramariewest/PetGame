@@ -1,7 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 
-// This panel opens the inventory and shop windows.
+// PetSupplies is the small menu for everything related to items.
 public class PetSupplies extends JPanel {
 
     private final JButton inventoryButton;
@@ -17,7 +17,7 @@ public class PetSupplies extends JPanel {
         inventoryButton = new JButton("Inventory");
         shopButton = new JButton("Shop");
 
-        // Both buttons open a separate window.
+        // Inventory and shop are separate windows so the main game stays visible.
         inventoryButton.addActionListener(e -> new PetInventory(player));
         shopButton.addActionListener(e -> new PetShop(player, playerStats));
 

@@ -1,6 +1,6 @@
 import javax.swing.*;
 
-// This panel shows the current values of the pet.
+// Progress bars make the pet values easier to read than plain numbers.
 public class PetStats extends JPanel {
 
     private final JProgressBar hungerBar;
@@ -30,7 +30,7 @@ public class PetStats extends JPanel {
         add(energyBar);
     }
 
-    // Copy the values from the pet object into the progress bars.
+    // Swing components do not update automatically when the pet object changes.
     public void updateStats(Pet pet) {
         hungerBar.setValue(pet.getHunger());
         thirstBar.setValue(pet.getThirst());

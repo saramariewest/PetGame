@@ -4,7 +4,7 @@ import java.awt.event.WindowEvent;
 import java.util.*;
 import javax.swing.*;
 
-// This window shows how many items the player owns.
+// The inventory keeps labels for each item so single amounts can be refreshed.
 public class PetInventory {
 
   private final JFrame inventory;

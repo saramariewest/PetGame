@@ -1,8 +1,10 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.*;
 
-// This class builds the main window of the game.
+// PetGame puts the separate UI parts together in one window.
 public class PetGame {
 
     public PetGame() {
@@ -12,9 +14,19 @@ public class PetGame {
         frame.setSize(700, 800);
         frame.setLocationRelativeTo(null);
 
-        Player player = new Player();
+        GameState savedGame = Save.loadGame();
+        Player player;
+        Pet pet;
+
+        if (savedGame != null) {
+            player = savedGame.player;
+            pet = savedGame.pet;
+        } else {
+            player = new Player();
+            pet = new Pet();
+        }
+
         PlayerStats playerStats = new PlayerStats();
-        Pet pet = new Pet();
 
         PetSprite sprite = new PetSprite();
         PetDashboard dashboard = new PetDashboard(pet, player, playerStats);
@@ -32,7 +44,7 @@ public class PetGame {
         playerStats.updateStats(player);
         frame.setVisible(true);
 
-        // The timer is the simple game loop of this project.
+        // Every timer tick changes the game state and refreshes the visible values.
         Timer timer = new Timer(5000, (ActionEvent e) -> {
             pet.passTime();
             dashboard.updateDashboard();
@@ -41,5 +53,12 @@ public class PetGame {
 
         });
         timer.start();
+
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                Save.saveGame(player, pet);
+            }
+        });
     }
 }

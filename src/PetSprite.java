@@ -1,6 +1,6 @@
 import javax.swing.*;
 
-// This can later be replaced with an image or animation.
+// The placeholder keeps the layout ready for a real pet picture later.
 public class PetSprite extends JPanel {
 
     public PetSprite() {

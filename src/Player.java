@@ -1,13 +1,16 @@
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-// This class stores the player's coins and items.
-public class Player {
+// Player contains the data that belongs to the person playing the game.
+public class Player implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   private int coins = 100;
-  // The map saves how many pieces of each item the player owns.
+  // The key is the item, the value is the amount owned by the player.
   private Map<Items, Integer> inventory = new HashMap<>();
-  private PetInventory inventoryWindow;
+  private transient PetInventory inventoryWindow;
 
   public int getCoins() {
     return coins;
@@ -18,7 +21,7 @@ public class Player {
   }
 
   public void passTime() {
-    coins += 5;
+    coins += 10;
   }
 
   public Map<Items, Integer> getInventory() {
@@ -38,7 +41,7 @@ public class Player {
   }
 
   public boolean hasItem(Type type) {
-    // Check if there is at least one item of the wanted type.
+    // Actions only need to know if any matching item exists.
     for (Map.Entry<Items, Integer> entry : inventory.entrySet()) {
       if (entry.getKey().type == type && entry.getValue() > 0) {
         return true;
@@ -49,7 +52,7 @@ public class Player {
   }
 
   public boolean useItem(Items item) {
-    // Using an item means removing one piece from the inventory.
+    // Items are stored as amounts, so using one item lowers the amount by one.
     int amount = inventory.getOrDefault(item, 0);
 
     if (amount <= 0) {

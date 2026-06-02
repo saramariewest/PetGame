@@ -1,7 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 
-// This panel shows information about the player.
+// PlayerStats is separated from PetStats because coins belong to the player.
 public class PlayerStats extends JPanel {
 
     private final JLabel coinLabel;
@@ -12,7 +12,7 @@ public class PlayerStats extends JPanel {
         add(coinLabel);
     }
 
-    // Refresh the coin label after the player earns or spends coins.
+    // The label must be refreshed after timer rewards or shop purchases.
     public void updateStats(Player player) {
         coinLabel.setText("Coins:   " + player.getCoins());
     }

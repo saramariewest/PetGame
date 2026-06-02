@@ -2,7 +2,7 @@ import java.awt.*;
 import java.util.Arrays;
 import javax.swing.*;
 
-// This panel combines the pet stats, supply buttons, and action buttons.
+// The dashboard is where button clicks are connected to pet and player data.
 public class PetDashboard extends JPanel {
 
     private final Pet pet;
@@ -62,16 +62,16 @@ public class PetDashboard extends JPanel {
     }
 
     private Items selectItem(Type type, String title) {
-        // Only show items that match the action and are still in the inventory.
-        if (!player.hasItem(type)) {
-            JOptionPane.showMessageDialog(this, "No " + type.name().toLowerCase() + " in inventory!");
-            return null;
-        }
-
+        // For example, feeding should only offer food items that are owned.
         Items[] availableItems = Arrays.stream(Items.values())
                 .filter(item -> item.type == type)
                 .filter(item -> player.getInventory().getOrDefault(item, 0) > 0)
                 .toArray(Items[]::new);
+
+        if (availableItems.length == 0) {
+            JOptionPane.showMessageDialog(this, "No " + type.name().toLowerCase() + " in inventory!");
+            return null;
+        }
 
         return (Items) JOptionPane.showInputDialog(
                 this,

@@ -1,7 +1,7 @@
 import java.awt.GridLayout;
 import javax.swing.*;
 
-// This window lets the player buy new items.
+// The shop changes both coins and inventory, so both displays may need updates.
 public class PetShop {
 
     private final JFrame shop;
@@ -35,7 +35,7 @@ public class PetShop {
         for (Items item : Items.values()) {
             JButton button = new JButton(item.displayName + " (" + item.price + ")");
             button.addActionListener(e -> {
-                // A shop item can only be bought if the player has enough coins.
+                // Buying first checks the price, then adds exactly one item.
                 if (player.getCoins() >= item.price) {
                     player.setCoins(player.getCoins() - item.price);
                     int oldAmount = player.getInventory().getOrDefault(item, 0);

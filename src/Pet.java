@@ -1,5 +1,9 @@
-// This class stores the current state of the pet.
-public class Pet {
+import java.io.Serializable;
+
+// Pet contains the values that change during the game.
+public class Pet implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private int hunger = 100; // 0 = starving, 100 = full
     private int thirst = 100; // 0 = dehydrated, 100 = quenched
@@ -52,7 +56,7 @@ public class Pet {
     }
 
     public void passTime() {
-        // These values get worse while the game is running.
+        // Time passing makes the pet need attention again.
         hunger = Math.max(0, hunger - 5);
         thirst = Math.max(0, thirst - 5);
         mood = Math.max(0, mood - 2);

@@ -6,6 +6,9 @@ bin/
 *.tmp
 *.log
 
+# Save files
+petgame.ser
+
 # Local test/build folders
 .codex-build/
 

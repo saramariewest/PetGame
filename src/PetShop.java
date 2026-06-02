@@ -8,12 +8,8 @@ public class PetShop {
     private final JPanel foodPanel;
     private final JPanel drinkPanel;
     private final JPanel toyPanel;
-    private final Player player;
-    private final PlayerStats playerStats;
 
     public PetShop(Player player, PlayerStats playerStats) {
-        this.player = player;
-        this.playerStats = playerStats;
         shop = new JFrame("Shop");
         shop.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         shop.setSize(600, 400);

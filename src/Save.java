@@ -16,12 +16,9 @@ public class Save {
         String filename = "petgame.ser";
 
         // Serialization
-        try {
-            FileOutputStream file = new FileOutputStream(filename);
-            ObjectOutputStream out = new ObjectOutputStream(file);
+        try (FileOutputStream file = new FileOutputStream(filename);
+                ObjectOutputStream out = new ObjectOutputStream(file)) {
             out.writeObject(object);
-            out.close();
-            file.close();
             System.out.println("Game has been serialized");
 
         } catch (IOException ex) {
@@ -34,12 +31,9 @@ public class Save {
         String filename = "petgame.ser";
 
         // Deserialization
-        try {
-            FileInputStream file = new FileInputStream(filename);
-            ObjectInputStream in = new ObjectInputStream(file);
+        try (FileInputStream file = new FileInputStream(filename);
+                ObjectInputStream in = new ObjectInputStream(file)) {
             object = (GameState) in.readObject();
-            in.close();
-            file.close();
             System.out.println("Game has been deserialized");
 
         } catch (IOException ex) {

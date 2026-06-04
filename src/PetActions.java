@@ -40,4 +40,11 @@ public class PetActions extends JPanel {
     public void addSleepListener(ActionListener l) {
         sleepButton.addActionListener(l);
     }
+
+    public void setActionsEnabled(boolean enabled) {
+        feedButton.setEnabled(enabled);
+        drinkButton.setEnabled(enabled);
+        playButton.setEnabled(enabled);
+        sleepButton.setEnabled(enabled);
+    }
 }

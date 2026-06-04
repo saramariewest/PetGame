@@ -1,7 +1,8 @@
 public class Main {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         // The program only needs to create the main game window.
-        new PetGame();
+        PetGame game = new PetGame();
+        game.start();
     }
 }

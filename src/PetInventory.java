@@ -21,16 +21,6 @@ public class PetInventory {
     inventory.setSize(600, 400);
     inventory.setLocationRelativeTo(null);
     inventory.setLayout(new GridLayout(3, 1));
-    player.setInventoryWindow(this);
-
-    inventory.addWindowListener(new WindowAdapter() {
-      @Override
-      public void windowClosed(WindowEvent e) {
-        if (player.getInventoryWindow() == PetInventory.this) {
-          player.setInventoryWindow(null);
-        }
-      }
-    });
 
     foodPanel = new JPanel();
     foodPanel.setBorder(BorderFactory.createTitledBorder("Food"));
@@ -61,7 +51,6 @@ public class PetInventory {
     inventory.add(foodPanel);
     inventory.add(drinkPanel);
     inventory.add(toyPanel);
-    inventory.setVisible(true);
   }
 
   public void updateLabel(Items item) {
@@ -69,5 +58,19 @@ public class PetInventory {
     if (lbl != null) {
       SwingUtilities.invokeLater(() -> lbl.setText(String.valueOf(player.getInventory().getOrDefault(item, 0))));
     }
+  }
+
+  public void showInventory() {
+    player.setInventoryWindow(this);
+    inventory.addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosed(WindowEvent e) {
+        if (player.getInventoryWindow() == PetInventory.this) {
+          player.setInventoryWindow(null);
+        }
+      }
+    });
+
+    inventory.setVisible(true);
   }
 }

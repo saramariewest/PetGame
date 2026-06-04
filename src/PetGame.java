@@ -7,7 +7,10 @@ import javax.swing.*;
 // PetGame puts the separate UI parts together in one window.
 public class PetGame {
 
-    public PetGame() {
+    private Player player;
+    private Pet pet;
+
+    public void start() {
         JFrame frame = new JFrame("Pet Game");
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -15,24 +18,26 @@ public class PetGame {
         frame.setLocationRelativeTo(null);
 
         GameState savedGame = Save.loadGame();
-        Player player;
-        Pet pet;
 
         if (savedGame != null) {
             player = savedGame.player;
             pet = savedGame.pet;
+
+            if (pet.getName() == null || pet.getName().isBlank()) {
+                pet = new Pet(askForPetName(frame));
+            }
         } else {
             player = new Player();
-            pet = new Pet();
+            pet = new Pet(askForPetName(frame));
         }
 
         PlayerStats playerStats = new PlayerStats();
 
         PetSprite sprite = new PetSprite();
-        PetDashboard dashboard = new PetDashboard(pet, player, playerStats);
+        PetDashboard dashboard = new PetDashboard(pet, player, playerStats, sprite);
 
         playerStats.setPreferredSize(new Dimension(0, 50));
-        dashboard.setPreferredSize(new Dimension(0, 250));
+        dashboard.setPreferredSize(new Dimension(0, 330));
 
         JPanel mainPanel = new JPanel(new BorderLayout(0, 0));
         mainPanel.add(playerStats, BorderLayout.NORTH);
@@ -45,11 +50,14 @@ public class PetGame {
         frame.setVisible(true);
 
         // Every timer tick changes the game state and refreshes the visible values.
-        Timer timer = new Timer(5000, (ActionEvent e) -> {
+        Timer timer = new Timer(10000, (ActionEvent e) -> {
             pet.passTime();
             dashboard.updateDashboard();
-            player.passTime();
-            playerStats.updateStats(player);
+
+            if (pet.isAlive()) {
+                player.passTime();
+                playerStats.updateStats(player);
+            }
 
         });
         timer.start();
@@ -60,5 +68,15 @@ public class PetGame {
                 Save.saveGame(player, pet);
             }
         });
+    }
+
+    private String askForPetName(JFrame frame) {
+        String petName = JOptionPane.showInputDialog(frame, "Name your pet:");
+
+        if (petName == null || petName.isBlank()) {
+            return "Pet";
+        }
+
+        return petName.trim();
     }
 }

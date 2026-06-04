@@ -14,7 +14,10 @@ public class PetSupplies extends JPanel {
         shopButton = new JButton("Shop");
 
         // Inventory and shop are separate windows so the main game stays visible.
-        inventoryButton.addActionListener(e -> new PetInventory(player));
+        inventoryButton.addActionListener(e -> {
+            PetInventory inventory = new PetInventory(player);
+            inventory.showInventory();
+        });
         shopButton.addActionListener(e -> new PetShop(player, playerStats));
 
         add(inventoryButton);

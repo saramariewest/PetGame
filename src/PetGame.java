@@ -18,13 +18,19 @@ public class PetGame {
         frame.setLocationRelativeTo(null);
 
         GameState savedGame = Save.loadGame();
+        GameTime gameTime;
 
         if (savedGame != null) {
             player = savedGame.player;
             pet = savedGame.pet;
+            gameTime = new GameTime(savedGame.lastSavedAt);
 
-            if (pet.getName() == null || pet.getName().isBlank()) {
-                pet = new Pet(askForPetName(frame));
+            int offlineTicks = gameTime.getOfflineTicks(10000);
+            for (int i = 0; i < offlineTicks; i++) {
+                pet.passTime();
+                if (pet.isAlive()) {
+                    player.passTime();
+                }
             }
         } else {
             player = new Player();
@@ -65,7 +71,7 @@ public class PetGame {
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                Save.saveGame(player, pet);
+                Save.saveGame(player, pet, System.currentTimeMillis());
             }
         });
     }

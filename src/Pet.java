@@ -148,10 +148,15 @@ public class Pet implements Serializable {
         }
 
         // Time passing makes the pet need attention again.
-        hunger = Math.max(0, hunger - Math.toIntExact(2 * passedTime / 10000));
-        thirst = Math.max(0, thirst - Math.toIntExact(3 * passedTime / 10000));
-        mood = Math.max(0, mood - Math.toIntExact(1 * passedTime / 10000));
-        energy = Math.max(0, energy - Math.toIntExact(1 * passedTime / 10000));
+        var newHunger = 2 * passedTime / 10000;
+        var newThirst = 3 * passedTime / 10000;
+        var newMood = 1 * passedTime / 10000;
+        var newEnergy = 1 * passedTime / 10000;
+
+        hunger = Math.max(0, hunger - Math.toIntExact(newHunger));
+        thirst = Math.max(0, thirst - Math.toIntExact(newThirst));
+        mood = Math.max(0, mood - Math.toIntExact(newMood));
+        energy = Math.max(0, energy - Math.toIntExact(newEnergy));
 
         if (hunger == 0 && thirst == 0) {
             criticalTicks++;

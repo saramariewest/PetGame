@@ -2,11 +2,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.time.Instant;
 import javax.swing.*;
 
 // PetGame puts the separate UI parts together in one window.
 public class PetGame {
 
+    private final int TICK_RATE = 10000;
     private Player player;
     private Pet pet;
 
@@ -18,19 +20,14 @@ public class PetGame {
         frame.setLocationRelativeTo(null);
 
         GameState savedGame = Save.loadGame();
-        GameTime gameTime;
 
         if (savedGame != null) {
             player = savedGame.player;
             pet = savedGame.pet;
-            gameTime = new GameTime(savedGame.lastSavedAt);
+            pet.passTime(Instant.now().toEpochMilli() - pet.getInitTimestamp());
 
-            int offlineTicks = gameTime.getOfflineTicks(10000);
-            for (int i = 0; i < offlineTicks; i++) {
-                pet.passTime();
-                if (pet.isAlive()) {
-                    player.passTime();
-                }
+            if (pet.getName() == null || pet.getName().isBlank()) {
+                pet = new Pet(askForPetName(frame));
             }
         } else {
             player = new Player();
@@ -56,8 +53,8 @@ public class PetGame {
         frame.setVisible(true);
 
         // Every timer tick changes the game state and refreshes the visible values.
-        Timer timer = new Timer(10000, (ActionEvent e) -> {
-            pet.passTime();
+        Timer timer = new Timer(TICK_RATE, (ActionEvent e) -> {
+            pet.passTime(TICK_RATE);
             dashboard.updateDashboard();
 
             if (pet.isAlive()) {
@@ -71,7 +68,7 @@ public class PetGame {
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                Save.saveGame(player, pet, System.currentTimeMillis());
+                Save.saveGame(player, pet);
             }
         });
     }

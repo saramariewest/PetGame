@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.time.Instant;
 
 // Pet contains the values that change during the game.
 public class Pet implements Serializable {
@@ -17,13 +18,18 @@ public class Pet implements Serializable {
     private int experience = 0;
     private boolean alive = true;
     private int criticalTicks = 0;
+    private long initTimestamp;
 
     public Pet() {
-        this("Pet");
     }
 
     public Pet(String name) {
         this.name = name;
+        this.initTimestamp = Instant.now().toEpochMilli();
+    }
+
+    public long getInitTimestamp() {
+        return initTimestamp;
     }
 
     public int getHunger() {
@@ -136,16 +142,16 @@ public class Pet implements Serializable {
         }
     }
 
-    public void passTime() {
+    public void passTime(long passedTime) {
         if (!alive) {
             return;
         }
 
         // Time passing makes the pet need attention again.
-        hunger = Math.max(0, hunger - 2);
-        thirst = Math.max(0, thirst - 3);
-        mood = Math.max(0, mood - 1);
-        energy = Math.max(0, energy - 1);
+        hunger = Math.max(0, hunger - Math.toIntExact(2 * passedTime / 10000));
+        thirst = Math.max(0, thirst - Math.toIntExact(3 * passedTime / 10000));
+        mood = Math.max(0, mood - Math.toIntExact(1 * passedTime / 10000));
+        energy = Math.max(0, energy - Math.toIntExact(1 * passedTime / 10000));
 
         if (hunger == 0 && thirst == 0) {
             criticalTicks++;

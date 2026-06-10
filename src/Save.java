@@ -1,28 +1,26 @@
 import java.io.*;
 
 class GameState implements Serializable {
-    private static final long serialVersionUID = 1L;
-
     public Player player;
     public Pet pet;
-    public long lastSavedAt;
 
-    public GameState(Player player, Pet pet, long lastSavedAt) {
+    public GameState(Player player, Pet pet) {
         this.player = player;
         this.pet = pet;
-        this.lastSavedAt = lastSavedAt;
     }
 }
 
 public class Save {
-    public static void saveGame(Player player, Pet pet, long lastSavedAt) {
-        GameState object = new GameState(player, pet, lastSavedAt);
+    public static void saveGame(Player player, Pet pet) {
+        GameState object = new GameState(player, pet);
         String filename = "petgame.ser";
 
+        // Serialization
         try (FileOutputStream file = new FileOutputStream(filename);
                 ObjectOutputStream out = new ObjectOutputStream(file)) {
             out.writeObject(object);
             System.out.println("Game has been serialized");
+
         } catch (IOException ex) {
             System.out.println("IOException is caught");
         }
@@ -32,10 +30,12 @@ public class Save {
         GameState object = null;
         String filename = "petgame.ser";
 
+        // Deserialization
         try (FileInputStream file = new FileInputStream(filename);
                 ObjectInputStream in = new ObjectInputStream(file)) {
             object = (GameState) in.readObject();
             System.out.println("Game has been deserialized");
+
         } catch (IOException ex) {
             System.out.println("IOException is caught");
         } catch (ClassNotFoundException ex) {

@@ -6,7 +6,6 @@ import javax.swing.*;
 public class PetSprite extends JPanel {
 
     private static final int SPRITE_SIZE = 320;
-    private static final String PET_FOLDER = "cat";
 
     private final JLabel spriteLabel;
 
@@ -20,7 +19,7 @@ public class PetSprite extends JPanel {
 
     public void updateSprite(Pet pet) {
         String fileName = pet.getEvolutionStage().spriteFile;
-        File spriteFile = new File("src/assets/pets/" + PET_FOLDER + "/" + fileName);
+        File spriteFile = new File("src/assets/pet/" + fileName);
 
         if (!spriteFile.exists()) {
             spriteLabel.setIcon(null);

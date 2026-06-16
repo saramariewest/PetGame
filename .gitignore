@@ -10,7 +10,6 @@ bin/
 petgame.ser
 
 # Local test/build folders
-.codex-build/
 
 # VS Code personal settings
 .vscode/launch.json

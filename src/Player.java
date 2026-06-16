@@ -11,6 +11,15 @@ public class Player implements Serializable {
   // The key is the item, the value is the amount owned by the player.
   private Map<Items, Integer> inventory = new HashMap<>();
   private transient PetInventory inventoryWindow;
+  private long saveTime;
+
+  public long getSaveTime() {
+    return saveTime;
+  }
+  
+  public void setSaveTime(long saveTime) {
+    this.saveTime = saveTime;
+  }
 
   public int getCoins() {
     return coins;
@@ -20,8 +29,8 @@ public class Player implements Serializable {
     this.coins = coins;
   }
 
-  public void passTime() {
-    coins += 10;
+  public void passTime(long passedTime) {
+    coins += 10 * passedTime / 10000;
   }
 
   public Map<Items, Integer> getInventory() {

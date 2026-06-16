@@ -1,4 +1,5 @@
 import java.io.*;
+import java.time.Instant;
 
 class GameState implements Serializable {
     public Player player;
@@ -14,6 +15,8 @@ public class Save {
     public static void saveGame(Player player, Pet pet) {
         GameState object = new GameState(player, pet);
         String filename = "petgame.ser";
+        player.setSaveTime(Instant.now().toEpochMilli());
+        pet.setSaveTime(Instant.now().toEpochMilli());
 
         // Serialization
         try (FileOutputStream file = new FileOutputStream(filename);

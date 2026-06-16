@@ -24,7 +24,8 @@ public class PetGame {
         if (savedGame != null) {
             player = savedGame.player;
             pet = savedGame.pet;
-            pet.passTime(Instant.now().toEpochMilli() - pet.getInitTimestamp());
+            pet.passTime(Instant.now().toEpochMilli() - pet.getSaveTime());
+            player.passTime(Instant.now().toEpochMilli() - player.getSaveTime());
 
             if (pet.getName() == null || pet.getName().isBlank()) {
                 pet = new Pet(askForPetName(frame));
@@ -58,7 +59,7 @@ public class PetGame {
             dashboard.updateDashboard();
 
             if (pet.isAlive()) {
-                player.passTime();
+                player.passTime(TICK_RATE);
                 playerStats.updateStats(player);
             }
 

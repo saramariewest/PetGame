@@ -19,13 +19,22 @@ public class Pet implements Serializable {
     private boolean alive = true;
     private int criticalTicks = 0;
     private long initTimestamp;
+    private long saveTime;
 
-    public Pet() {
+      public Pet() {
     }
 
     public Pet(String name) {
         this.name = name;
         this.initTimestamp = Instant.now().toEpochMilli();
+    }
+
+    public long getSaveTime() {
+        return saveTime;
+    }
+
+    public void setSaveTime(long saveTime) {
+        this.saveTime = saveTime;
     }
 
     public long getInitTimestamp() {
@@ -147,16 +156,25 @@ public class Pet implements Serializable {
             return;
         }
 
-        // Time passing makes the pet need attention again.
-        var newHunger = 2 * passedTime / 10000;
-        var newThirst = 3 * passedTime / 10000;
-        var newMood = 1 * passedTime / 10000;
-        var newEnergy = 1 * passedTime / 10000;
+        // Polynomial: y = a*x² + b*x + c
+        // Time in seconds (convert from milliseconds for better scale)
+        double x = passedTime / 1000.0;
 
-        hunger = Math.max(0, hunger - Math.toIntExact(newHunger));
-        thirst = Math.max(0, thirst - Math.toIntExact(newThirst));
-        mood = Math.max(0, mood - Math.toIntExact(newMood));
-        energy = Math.max(0, energy - Math.toIntExact(newEnergy));
+        double a = -0.0000122087;
+        double b = 0.0860986;
+        double c = 2.91862;
+
+        // Calculate polynomial values for each attribute
+        double newHunger = (a * x * x + b * x + c) * 0.5;
+        double newThirst = a * x * x + b * x + c;
+        double newMood = a * x * x + b * x + c;
+        double newEnergy = a * x * x + b * x + c;
+
+        // Clamp values to reasonable range before casting
+        hunger = Math.max(0, hunger - (int) Math.min(Integer.MAX_VALUE, Math.round(Math.max(0, newHunger))));
+        thirst = Math.max(0, thirst - (int) Math.min(Integer.MAX_VALUE, Math.round(Math.max(0, newThirst))));
+        mood = Math.max(0, mood - (int) Math.min(Integer.MAX_VALUE, Math.round(Math.max(0, newMood))));
+        energy = Math.max(0, energy - (int) Math.min(Integer.MAX_VALUE, Math.round(Math.max(0, newEnergy))));
 
         if (hunger == 0 && thirst == 0) {
             criticalTicks++;

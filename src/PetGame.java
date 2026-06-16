@@ -19,6 +19,8 @@ public class PetGame {
         frame.setSize(700, 800);
         frame.setLocationRelativeTo(null);
 
+        PetGameMenu menu = new PetGameMenu(frame);
+
         GameState savedGame = Save.loadGame();
 
         if (savedGame != null) {

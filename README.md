@@ -42,35 +42,6 @@ javac -d bin src/*.java
 java -cp bin Main
 ```
 
-## Project Structure
-
-- `Main.java` starts the program.
-- `PetGame.java` creates the main window and the timer.
-- `Pet.java` stores the pet values and actions.
-- `Player.java` stores the player's coins and inventory.
-- `Items.java` contains the available shop items.
-- `Type.java` separates items into Food, Drink, and Toy.
-- `PetDashboard.java` connects the status display, buttons, and supply area.
-- `PetActions.java` contains the action buttons.
-- `PetStats.java` shows hunger, thirst, mood, and energy.
-- `PlayerStats.java` shows the player's coins.
-- `PetSupplies.java` contains the buttons for inventory and shop.
-- `PetInventory.java` shows bought items.
-- `PetShop.java` allows the player to buy new items.
-- `PetSprite.java` is currently a placeholder for the pet graphic.
-
-## Learning Goals
-
-This project is mainly used to practice these basics:
-
-- Classes and objects in Java
-- Simple Swing components
-- `JFrame`, `JPanel`, `JButton`, `JLabel`, and `JProgressBar`
-- `ActionListener` for button clicks
-- `Timer` for repeated game actions
-- `Map` for a simple inventory
-- Splitting a program into several classes
-
 ## Notes
 
 Compiled `.class` files are not part of the source code and are ignored through `.gitignore`. The `bin` folder is only used as the output folder when compiling the project.

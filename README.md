@@ -41,7 +41,3 @@ mkdir -p bin
 javac -d bin src/*.java
 java -cp bin Main
 ```
-
-## Notes
-
-Compiled `.class` files are not part of the source code and are ignored through `.gitignore`. The `bin` folder is only used as the output folder when compiling the project.

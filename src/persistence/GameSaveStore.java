@@ -1,24 +1,19 @@
+package persistence;
+
 import java.io.*;
 import java.time.Instant;
 
-class GameState implements Serializable {
-    public Player player;
-    public Pet pet;
+import model.Pet;
+import model.Player;
 
-    public GameState(Player player, Pet pet) {
-        this.player = player;
-        this.pet = pet;
-    }
-}
-
-public class Save {
+public class GameSaveStore {
     public static void saveGame(Player player, Pet pet) {
         GameState object = new GameState(player, pet);
         String filename = "petgame.ser";
         player.setSaveTime(Instant.now().toEpochMilli());
         pet.setSaveTime(Instant.now().toEpochMilli());
 
-        // Serialization
+        // Write the current game state to disk.
         try (FileOutputStream file = new FileOutputStream(filename);
                 ObjectOutputStream out = new ObjectOutputStream(file)) {
             out.writeObject(object);
@@ -29,11 +24,11 @@ public class Save {
         }
     }
 
-    static GameState loadGame() {
+    public static GameState loadGame() {
         GameState object = null;
         String filename = "petgame.ser";
 
-        // Deserialization
+        // Read the saved game state from disk.
         try (FileInputStream file = new FileInputStream(filename);
                 ObjectInputStream in = new ObjectInputStream(file)) {
             object = (GameState) in.readObject();

@@ -1,6 +1,10 @@
+package ui;
+
 import javax.swing.*;
 
-// Progress bars make the pet values easier to read than plain numbers.
+import model.Pet;
+
+// Shows the pet values as labels and progress bars.
 public class PetStats extends JPanel {
 
     private final JProgressBar hungerBar;
@@ -42,7 +46,7 @@ public class PetStats extends JPanel {
         add(energyBar);
     }
 
-    // Swing components do not update automatically when the pet object changes.
+    // Refresh after the pet state changes.
     public void updateStats(Pet pet) {
         levelLabel.setText("Level: " + pet.getLevel());
         stageLabel.setText("Stage: " + pet.getEvolutionStage().displayName);

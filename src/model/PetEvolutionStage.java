@@ -1,4 +1,6 @@
-public enum EvolutionStage {
+package model;
+
+public enum PetEvolutionStage {
     BABY("Baby", 1, "stage_one.png"),
     TEEN("Teen", 5, "stage_two.png"),
     ADULT("Adult", 10, "stage_three.png");
@@ -7,7 +9,7 @@ public enum EvolutionStage {
     public final int requiredLevel;
     public final String spriteFile;
 
-    EvolutionStage(String displayName, int requiredLevel, String spriteFile) {
+    PetEvolutionStage(String displayName, int requiredLevel, String spriteFile) {
         this.displayName = displayName;
         this.requiredLevel = requiredLevel;
         this.spriteFile = spriteFile;

@@ -1,8 +1,10 @@
+package ui;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-// PetActions creates the buttons, but the dashboard adds the actual behavior.
+// Contains the main action buttons for the pet.
 public class PetActions extends JPanel {
 
     private final JButton feedButton;
@@ -24,7 +26,7 @@ public class PetActions extends JPanel {
         add(sleepButton);
     }
 
-    // Listener methods keep the button layout separate from the game logic.
+    // The dashboard connects these buttons to game behavior.
     public void addFeedListener(ActionListener l) {
         feedButton.addActionListener(l);
     }

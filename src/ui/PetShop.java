@@ -1,7 +1,12 @@
+package ui;
+
 import java.awt.GridLayout;
 import javax.swing.*;
 
-// The shop changes both coins and inventory, so both displays may need updates.
+import model.Items;
+import model.Player;
+
+// Lets the player buy items with coins.
 public class PetShop {
 
     private final JFrame shop;
@@ -31,7 +36,6 @@ public class PetShop {
         for (Items item : Items.values()) {
             JButton button = new JButton(item.displayName + " (" + item.price + ")");
             button.addActionListener(e -> {
-                // Buying first checks the price, then adds exactly one item.
                 if (player.getCoins() >= item.price) {
                     player.setCoins(player.getCoins() - item.price);
                     int oldAmount = player.getInventory().getOrDefault(item, 0);

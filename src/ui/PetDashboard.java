@@ -1,8 +1,15 @@
+package ui;
+
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-// The dashboard is where button clicks are connected to pet and player data.
+import model.ItemType;
+import model.Items;
+import model.Pet;
+import model.Player;
+
+// Connects pet actions to the current pet and player state.
 public class PetDashboard extends JPanel {
 
     private final Pet pet;
@@ -37,7 +44,7 @@ public class PetDashboard extends JPanel {
                 return;
             }
 
-            Items item = selectItem(Type.FOOD, "Choose food");
+            Items item = selectItem(ItemType.FOOD, "Choose food");
             if (item != null && player.useItem(item)) {
                 pet.feed(item.points);
                 pet.addExperience(5);
@@ -50,7 +57,7 @@ public class PetDashboard extends JPanel {
                 return;
             }
 
-            Items item = selectItem(Type.DRINK, "Choose drink");
+            Items item = selectItem(ItemType.DRINK, "Choose drink");
             if (item != null && player.useItem(item)) {
                 pet.drink(item.points);
                 pet.addExperience(4);
@@ -63,7 +70,7 @@ public class PetDashboard extends JPanel {
                 return;
             }
 
-            Items item = selectItem(Type.TOY, "Choose toy");
+            Items item = selectItem(ItemType.TOY, "Choose toy");
             if (item != null && player.useItem(item)) {
                 pet.play(item.points);
                 pet.addExperience(8);
@@ -83,8 +90,8 @@ public class PetDashboard extends JPanel {
         refreshDashboard();
     }
 
-    private Items selectItem(Type type, String title) {
-        // For example, feeding should only offer food items that are owned.
+    private Items selectItem(ItemType type, String title) {
+        // Offer only owned items that match the selected action.
         ArrayList<Items> availableItems = new ArrayList<>();
 
         for (Items item : Items.values()) {

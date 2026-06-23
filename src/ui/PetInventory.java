@@ -1,10 +1,15 @@
+package ui;
+
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.*;
 import javax.swing.*;
 
-// The inventory keeps labels for each item so single amounts can be refreshed.
+import model.Items;
+import model.Player;
+
+// Shows the amount owned for each item.
 public class PetInventory {
 
   private final JFrame inventory;

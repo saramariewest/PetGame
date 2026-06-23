@@ -1,14 +1,18 @@
+package model;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-// Player contains the data that belongs to the person playing the game.
+import ui.PetInventory;
+
+// Stores player progress, coins, and inventory.
 public class Player implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   private int coins = 100;
-  // The key is the item, the value is the amount owned by the player.
+  // Each item maps to the amount owned.
   private Map<Items, Integer> inventory = new HashMap<>();
   private transient PetInventory inventoryWindow;
   private long saveTime;
@@ -49,8 +53,7 @@ public class Player implements Serializable {
     return inventoryWindow;
   }
 
-  public boolean hasItem(Type type) {
-    // Actions only need to know if any matching item exists.
+  public boolean hasItem(ItemType type) {
     for (Map.Entry<Items, Integer> entry : inventory.entrySet()) {
       if (entry.getKey().type == type && entry.getValue() > 0) {
         return true;
@@ -61,7 +64,6 @@ public class Player implements Serializable {
   }
 
   public boolean useItem(Items item) {
-    // Items are stored as amounts, so using one item lowers the amount by one.
     int amount = inventory.getOrDefault(item, 0);
 
     if (amount <= 0) {

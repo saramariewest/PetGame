@@ -1,7 +1,9 @@
+package model;
+
 import java.io.Serializable;
 import java.time.Instant;
 
-// Pet contains the values that change during the game.
+// Stores the pet state and core game rules.
 public class Pet implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -9,24 +11,27 @@ public class Pet implements Serializable {
     private static final int MAX_VALUE = 100;
     private static final int CRITICAL_TICKS_UNTIL_DEATH = 3;
 
-    private int hunger = 100; // 0 = starving, 100 = full
-    private int thirst = 100; // 0 = dehydrated, 100 = quenched
-    private int mood = 100; // 0 = sad, 100 = happy
-    private int energy = 100; // 0 = exhausted, 100 = energetic
+    private int hunger = 100; // 0 = starving, 100 = full.
+    private int thirst = 100; // 0 = dehydrated, 100 = quenched.
+    private int mood = 100; // 0 = sad, 100 = happy.
+    private int energy = 100; // 0 = exhausted, 100 = energetic.
     private String name;
     private int level = 1;
     private int experience = 0;
     private boolean alive = true;
     private int criticalTicks = 0;
     private long initTimestamp;
+    private long deathTimestamp;
     private long saveTime;
+    private boolean highscoreRecorded;
 
-      public Pet() {
+    public Pet() {
+        this.initTimestamp = Instant.now().toEpochMilli();
     }
 
     public Pet(String name) {
+        this();
         this.name = name;
-        this.initTimestamp = Instant.now().toEpochMilli();
     }
 
     public long getSaveTime() {
@@ -39,6 +44,26 @@ public class Pet implements Serializable {
 
     public long getInitTimestamp() {
         return initTimestamp;
+    }
+
+    public long getSurvivalTimeMillis() {
+        if (initTimestamp == 0) {
+            return 0;
+        }
+
+        if (deathTimestamp > 0) {
+            return deathTimestamp - initTimestamp;
+        }
+
+        return Instant.now().toEpochMilli() - initTimestamp;
+    }
+
+    public boolean isHighscoreRecorded() {
+        return highscoreRecorded;
+    }
+
+    public void setHighscoreRecorded(boolean highscoreRecorded) {
+        this.highscoreRecorded = highscoreRecorded;
     }
 
     public int getHunger() {
@@ -81,16 +106,16 @@ public class Pet implements Serializable {
         return alive;
     }
 
-    public EvolutionStage getEvolutionStage() {
-        if (level >= EvolutionStage.ADULT.requiredLevel) {
-            return EvolutionStage.ADULT;
+    public PetEvolutionStage getEvolutionStage() {
+        if (level >= PetEvolutionStage.ADULT.requiredLevel) {
+            return PetEvolutionStage.ADULT;
         }
 
-        if (level >= EvolutionStage.TEEN.requiredLevel) {
-            return EvolutionStage.TEEN;
+        if (level >= PetEvolutionStage.TEEN.requiredLevel) {
+            return PetEvolutionStage.TEEN;
         }
 
-        return EvolutionStage.BABY;
+        return PetEvolutionStage.BABY;
     }
 
     public void feed() {
@@ -156,21 +181,19 @@ public class Pet implements Serializable {
             return;
         }
 
-        // Polynomial: y = a*x² + b*x + c
-        // Time in seconds (convert from milliseconds for better scale)
+        // Use seconds so the decay curve stays easy to tune.
         double x = passedTime / 1000.0;
 
         double a = -0.0000122087;
         double b = 0.0860986;
         double c = 2.91862;
 
-        // Calculate polynomial values for each attribute
         double newHunger = (a * x * x + b * x + c) * 0.5;
         double newThirst = a * x * x + b * x + c;
         double newMood = a * x * x + b * x + c;
         double newEnergy = a * x * x + b * x + c;
 
-        // Clamp values to reasonable range before casting
+        // Clamp decay before converting it to integer stat changes.
         hunger = Math.max(0, hunger - (int) Math.min(Integer.MAX_VALUE, Math.round(Math.max(0, newHunger))));
         thirst = Math.max(0, thirst - (int) Math.min(Integer.MAX_VALUE, Math.round(Math.max(0, newThirst))));
         mood = Math.max(0, mood - (int) Math.min(Integer.MAX_VALUE, Math.round(Math.max(0, newMood))));
@@ -182,6 +205,7 @@ public class Pet implements Serializable {
 
             if (criticalTicks >= CRITICAL_TICKS_UNTIL_DEATH) {
                 alive = false;
+                deathTimestamp = Instant.now().toEpochMilli();
             }
         } else {
             criticalTicks = 0;

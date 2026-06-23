@@ -1,8 +1,12 @@
+package ui;
+
 import java.awt.*;
 import java.io.File;
 import javax.swing.*;
 
-// PetSprite displays the current sprite while Pet keeps the game logic.
+import model.Pet;
+
+// Displays the sprite for the pet's current evolution stage.
 public class PetSprite extends JPanel {
 
     private static final int SPRITE_SIZE = 320;

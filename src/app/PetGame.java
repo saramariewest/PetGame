@@ -1,27 +1,13 @@
 package app;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.time.Instant;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.Timer;
+import javax.swing.*;
 
-import model.Pet;
-import model.Player;
-import persistence.GameState;
-import persistence.GameSaveStore;
-import persistence.HighscoreManager;
-import ui.PetDashboard;
-import ui.PetGameMenu;
-import ui.PlayerStats;
-import ui.PetSprite;
-import ui.StartMenuPanel;
+import model.*;
+import persistence.*;
+import ui.*;
 
 // Coordinates the game flow, menus, and the main window.
 public class PetGame {

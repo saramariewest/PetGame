@@ -1,13 +1,10 @@
 package ui;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import javax.swing.*;
 
-import model.ItemType;
-import model.Items;
-import model.Pet;
-import model.Player;
+import model.*;
 
 // Connects pet actions to the current pet and player state.
 public class PetDashboard extends JPanel {

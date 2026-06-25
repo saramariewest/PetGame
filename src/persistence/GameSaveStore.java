@@ -3,8 +3,7 @@ package persistence;
 import java.io.*;
 import java.time.Instant;
 
-import model.Pet;
-import model.Player;
+import model.*;
 
 public class GameSaveStore {
     public static void saveGame(Player player, Pet pet) {

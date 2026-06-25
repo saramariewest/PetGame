@@ -2,7 +2,7 @@ package ui;
 
 import javax.swing.*;
 
-import model.Pet;
+import model.*;
 
 // Shows the pet values as labels and progress bars.
 public class PetStats extends JPanel {

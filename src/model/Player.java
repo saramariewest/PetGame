@@ -1,8 +1,7 @@
 package model;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import ui.PetInventory;
 

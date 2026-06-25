@@ -1,8 +1,7 @@
 package model;
 
 import java.io.Serializable;
-import java.time.Instant;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 public class HighscoreEntry implements Serializable {

@@ -1,13 +1,11 @@
 package ui;
 
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
-import model.Items;
-import model.Player;
+import model.*;
 
 // Shows the amount owned for each item.
 public class PetInventory {

@@ -1,10 +1,9 @@
 package ui;
 
-import java.awt.GridLayout;
+import java.awt.*;
 import javax.swing.*;
 
-import model.Items;
-import model.Player;
+import model.*;
 
 // Lets the player buy items with coins.
 public class PetShop {

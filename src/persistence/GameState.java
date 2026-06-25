@@ -2,8 +2,7 @@ package persistence;
 
 import java.io.Serializable;
 
-import model.Pet;
-import model.Player;
+import model.*;
 
 public class GameState implements Serializable {
 

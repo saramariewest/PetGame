@@ -3,7 +3,7 @@ package ui;
 import java.awt.*;
 import javax.swing.*;
 
-import model.Player;
+import model.*;
 
 // Shows values that belong to the player.
 public class PlayerStats extends JPanel {

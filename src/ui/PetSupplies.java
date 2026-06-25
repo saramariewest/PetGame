@@ -3,7 +3,7 @@ package ui;
 import java.awt.*;
 import javax.swing.*;
 
-import model.Player;
+import model.*;
 
 // Contains item-related actions.
 public class PetSupplies extends JPanel {

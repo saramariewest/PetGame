@@ -1,20 +1,13 @@
 package persistence;
 
 import java.awt.Component;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.io.*;
+import java.util.*;
+import javax.swing.*;
 
-import model.HighscoreEntry;
-import model.Pet;
+import model.*;
 
 public class HighscoreManager {
 
@@ -50,10 +43,10 @@ public class HighscoreManager {
         JTextArea textArea = new JTextArea(buildTable(highscores));
         textArea.setEditable(false);
         textArea.setCaretPosition(0);
-        textArea.setFont(new java.awt.Font(java.awt.Font.MONOSPACED, java.awt.Font.PLAIN, 12));
+        textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 
         JScrollPane scrollPane = new JScrollPane(textArea);
-        scrollPane.setPreferredSize(new java.awt.Dimension(520, 320));
+        scrollPane.setPreferredSize(new Dimension(520, 320));
 
         JOptionPane.showMessageDialog(parent, scrollPane, "Highscores", JOptionPane.INFORMATION_MESSAGE);
     }

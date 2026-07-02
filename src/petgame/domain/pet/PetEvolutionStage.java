@@ -1,4 +1,4 @@
-package model;
+package petgame.domain.pet;
 
 public enum PetEvolutionStage {
     BABY("Baby", 1, "stage_one.png"),
@@ -20,3 +20,5 @@ public enum PetEvolutionStage {
         return displayName;
     }
 }
+
+

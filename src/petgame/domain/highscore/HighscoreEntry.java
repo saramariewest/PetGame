@@ -1,4 +1,4 @@
-package model;
+package petgame.domain.highscore;
 
 import java.io.Serializable;
 import java.time.*;
@@ -67,3 +67,5 @@ public class HighscoreEntry implements Serializable {
         return TIME_FORMATTER.format(Instant.ofEpochMilli(createdAt));
     }
 }
+
+

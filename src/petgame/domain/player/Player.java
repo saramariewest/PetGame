@@ -1,9 +1,10 @@
-package model;
+package petgame.domain.player;
 
 import java.io.Serializable;
 import java.util.*;
 
-import ui.PetInventory;
+import petgame.domain.item.Item;
+import petgame.domain.item.ItemType;
 
 // Stores player progress, coins, and inventory.
 public class Player implements Serializable {
@@ -12,8 +13,7 @@ public class Player implements Serializable {
 
   private int coins = 100;
   // Each item maps to the amount owned.
-  private Map<Items, Integer> inventory = new HashMap<>();
-  private transient PetInventory inventoryWindow;
+  private Map<Item, Integer> inventory = new HashMap<>();
   private long saveTime;
 
   public long getSaveTime() {
@@ -36,24 +36,16 @@ public class Player implements Serializable {
     coins += 10 * passedTime / 10000;
   }
 
-  public Map<Items, Integer> getInventory() {
+  public Map<Item, Integer> getInventory() {
     return inventory;
   }
 
-  public void setInventory(Map<Items, Integer> inventory) {
+  public void setInventory(Map<Item, Integer> inventory) {
     this.inventory = inventory;
   }
 
-  public void setInventoryWindow(PetInventory inv) {
-    this.inventoryWindow = inv;
-  }
-
-  public PetInventory getInventoryWindow() {
-    return inventoryWindow;
-  }
-
   public boolean hasItem(ItemType type) {
-    for (Map.Entry<Items, Integer> entry : inventory.entrySet()) {
+    for (Map.Entry<Item, Integer> entry : inventory.entrySet()) {
       if (entry.getKey().type == type && entry.getValue() > 0) {
         return true;
       }
@@ -62,7 +54,7 @@ public class Player implements Serializable {
     return false;
   }
 
-  public boolean useItem(Items item) {
+  public boolean useItem(Item item) {
     int amount = inventory.getOrDefault(item, 0);
 
     if (amount <= 0) {
@@ -75,10 +67,8 @@ public class Player implements Serializable {
       inventory.remove(item);
     }
 
-    if (inventoryWindow != null) {
-      inventoryWindow.updateLabel(item);
-    }
-
     return true;
   }
 }
+
+

@@ -1,4 +1,4 @@
-package model;
+package petgame.domain.pet;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -213,3 +213,5 @@ public class Pet implements Serializable {
     }
 
 }
+
+

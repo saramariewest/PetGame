@@ -1,4 +1,4 @@
-package ui;
+package petgame.ui.dashboard;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -50,3 +50,5 @@ public class PetActions extends JPanel {
         sleepButton.setEnabled(enabled);
     }
 }
+
+

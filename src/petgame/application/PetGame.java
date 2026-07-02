@@ -1,13 +1,21 @@
-package app;
+package petgame.application;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.time.Instant;
 import javax.swing.*;
 
-import model.*;
-import persistence.*;
-import ui.*;
+import petgame.domain.game.GameState;
+import petgame.domain.highscore.HighscoreEntry;
+import petgame.domain.pet.Pet;
+import petgame.domain.player.Player;
+import petgame.persistence.GameDataStore;
+import petgame.ui.dashboard.PetDashboard;
+import petgame.ui.dashboard.PetSprite;
+import petgame.ui.dashboard.PlayerStats;
+import petgame.ui.menu.GameMenuBar;
+import petgame.ui.menu.StartMenuPanel;
+import petgame.ui.highscore.HighscoreDialog;
 
 // Coordinates the game flow, menus, and the main window.
 public class PetGame {
@@ -15,6 +23,8 @@ public class PetGame {
     private static final int TICK_RATE = 10_000;
     private static final String MENU_CARD = "menu";
     private static final String GAME_CARD = "game";
+
+    private final GameDataStore gameDataStore;
 
     private JFrame frame;
     private CardLayout cardLayout;
@@ -26,9 +36,13 @@ public class PetGame {
     private PlayerStats playerStats;
     private PetSprite sprite;
     private PetDashboard dashboard;
-    private PetGameMenu gameMenu;
+    private GameMenuBar gameMenu;
     private Timer timer;
     private boolean highscoreRecorded;
+
+    public PetGame(GameDataStore gameDataStore) {
+        this.gameDataStore = gameDataStore;
+    }
 
     public void start() {
         frame = new JFrame("Pet Game");
@@ -42,7 +56,7 @@ public class PetGame {
         mainMenuPanel = new StartMenuPanel();
         mainMenuPanel.onNewGame(this::startNewGame);
         mainMenuPanel.onSavedGame(this::startSavedGame);
-        mainMenuPanel.onHighscore(() -> HighscoreManager.showHighscores(frame));
+        mainMenuPanel.onHighscore(this::showHighscores);
         mainMenuPanel.onSettings(this::showSettings);
 
         rootPanel.add(mainMenuPanel, MENU_CARD);
@@ -73,14 +87,14 @@ public class PetGame {
     private void startSavedGame() {
         stopCurrentGame();
 
-        GameState savedGame = GameSaveStore.loadGame();
+        GameState savedGame = gameDataStore.loadGame().orElse(null);
         if (savedGame == null) {
             JOptionPane.showMessageDialog(frame, "No saved game found.");
             return;
         }
 
-        player = savedGame.player;
-        pet = savedGame.pet;
+        player = savedGame.getPlayer();
+        pet = savedGame.getPet();
         highscoreRecorded = pet.isHighscoreRecorded();
 
         long now = Instant.now().toEpochMilli();
@@ -132,8 +146,8 @@ public class PetGame {
     }
 
     private void installGameMenuBar() {
-        gameMenu = new PetGameMenu(frame);
-        gameMenu.onHighscore(() -> HighscoreManager.showHighscores(frame));
+        gameMenu = new GameMenuBar(frame);
+        gameMenu.onHighscore(this::showHighscores);
         gameMenu.onSettings(this::showSettings);
         gameMenu.onMainMenu(this::returnToMainMenu);
     }
@@ -191,7 +205,10 @@ public class PetGame {
 
     private void saveCurrentGame() {
         if (player != null && pet != null) {
-            GameSaveStore.saveGame(player, pet);
+            long saveTime = Instant.now().toEpochMilli();
+            player.setSaveTime(saveTime);
+            pet.setSaveTime(saveTime);
+            gameDataStore.saveGame(new GameState(player, pet));
         }
     }
 
@@ -221,7 +238,14 @@ public class PetGame {
             name = "Anonymous";
         }
 
-        HighscoreManager.addEntry(name, pet);
-        HighscoreManager.showHighscores(frame);
+        gameDataStore.addHighscore(
+                new HighscoreEntry(name.trim(), pet.getLevel(), pet.getSurvivalTimeMillis()));
+        showHighscores();
+    }
+
+    private void showHighscores() {
+        HighscoreDialog.show(frame, gameDataStore.loadHighscores());
     }
 }
+
+

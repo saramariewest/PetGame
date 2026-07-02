@@ -6,13 +6,6 @@ Pet Game is a small Java Swing project. The player takes care of a virtual pet w
 
 The game also has a player with coins, an inventory, and a shop. Items can be bought in the shop and then used for feeding, drinking, or playing.
 
-## Structure
-
-- `src/app`: application entry point and game flow
-- `src/model`: pet, player, items, and other core data
-- `src/persistence`: save-game and highscore storage
-- `src/ui`: Swing panels, menus, windows, and the game screen
-
 ## Features
 
 - Feed the pet
@@ -39,7 +32,7 @@ From the project folder:
 ```powershell
 New-Item -ItemType Directory -Force -Path bin
 javac -d bin (Get-ChildItem -Recurse src -Filter *.java).FullName
-java -cp bin Main
+java -cp bin petgame.Main
 ```
 
 On Linux or macOS:
@@ -47,5 +40,5 @@ On Linux or macOS:
 ```bash
 mkdir -p bin
 javac -d bin $(find src -name "*.java")
-java -cp bin Main
+java -cp bin petgame.Main
 ```

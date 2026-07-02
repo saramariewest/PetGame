@@ -1,10 +1,9 @@
-package ui;
+package petgame.ui.dashboard;
 
 import java.awt.*;
 import java.io.File;
 import javax.swing.*;
-
-import model.*;
+import petgame.domain.pet.Pet;
 
 // Displays the sprite for the pet's current evolution stage.
 public class PetSprite extends JPanel {

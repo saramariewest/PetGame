@@ -1,16 +1,16 @@
-package ui;
+package petgame.ui.menu;
 
 import java.awt.event.*;
 import javax.swing.*;
 
-public class PetGameMenu {
+public class GameMenuBar {
 
   private final JMenuBar menuBar;
   private final JMenuItem highscoreItem;
   private final JMenuItem settingsItem;
   private final JMenuItem mainMenuItem;
 
-  public PetGameMenu(JFrame frame) {
+  public GameMenuBar(JFrame frame) {
     menuBar = new JMenuBar();
 
     JMenu menu = new JMenu("Menu");
@@ -50,3 +50,5 @@ public class PetGameMenu {
     mainMenuItem.addActionListener(e -> action.run());
   }
 }
+
+

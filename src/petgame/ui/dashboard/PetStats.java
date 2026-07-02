@@ -1,8 +1,8 @@
-package ui;
+package petgame.ui.dashboard;
 
 import javax.swing.*;
 
-import model.*;
+import petgame.domain.pet.Pet;
 
 // Shows the pet values as labels and progress bars.
 public class PetStats extends JPanel {
@@ -58,3 +58,5 @@ public class PetStats extends JPanel {
         energyBar.setValue(pet.getEnergy());
     }
 }
+
+

@@ -1,6 +1,6 @@
-package model;
+package petgame.domain.item;
 
-public enum Items {
+public enum Item {
     CEREAL("Cereal", ItemType.FOOD, 10, 10),
     SUSHI("Sushi", ItemType.FOOD, 15, 15),
     CAKE("Cake", ItemType.FOOD, 20, 25),
@@ -17,7 +17,7 @@ public enum Items {
     // More expensive items usually restore more points.
     public final int points;
 
-    Items(String displayName, ItemType type, int price, int points) {
+    Item(String displayName, ItemType type, int price, int points) {
         this.displayName = displayName;
         this.type = type;
         this.price = price;
@@ -29,3 +29,5 @@ public enum Items {
         return displayName;
     }
 }
+
+

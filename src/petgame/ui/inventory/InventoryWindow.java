@@ -1,23 +1,23 @@
-package ui;
+package petgame.ui.inventory;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
-import model.*;
+import petgame.domain.item.Item;
+import petgame.domain.player.Player;
 
 // Shows the amount owned for each item.
-public class PetInventory {
+public class InventoryWindow {
 
   private final JFrame inventory;
   private final JPanel foodPanel;
   private final JPanel drinkPanel;
   private final JPanel toyPanel;
   private final Player player;
-  private final EnumMap<Items, JLabel> countLabels = new EnumMap<>(Items.class);
+  private final EnumMap<Item, JLabel> countLabels = new EnumMap<>(Item.class);
 
-  public PetInventory(Player player) {
+  public InventoryWindow(Player player) {
     this.player = player;
     inventory = new JFrame("Inventory");
     inventory.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -27,15 +27,15 @@ public class PetInventory {
 
     foodPanel = new JPanel();
     foodPanel.setBorder(BorderFactory.createTitledBorder("Food"));
-    foodPanel.setLayout(new GridLayout(1, Items.values().length));
+    foodPanel.setLayout(new GridLayout(1, Item.values().length));
     drinkPanel = new JPanel();
     drinkPanel.setBorder(BorderFactory.createTitledBorder("Drinks"));
-    drinkPanel.setLayout(new GridLayout(1, Items.values().length));
+    drinkPanel.setLayout(new GridLayout(1, Item.values().length));
     toyPanel = new JPanel();
     toyPanel.setBorder(BorderFactory.createTitledBorder("Toys"));
-    toyPanel.setLayout(new GridLayout(1, Items.values().length));
+    toyPanel.setLayout(new GridLayout(1, Item.values().length));
 
-    for (Items item : Items.values()) {
+    for (Item item : Item.values()) {
       JPanel panel = new JPanel(new BorderLayout());
       panel.setBorder(BorderFactory.createTitledBorder(item.displayName));
       JLabel count = new JLabel(String.valueOf(player.getInventory().getOrDefault(item, 0)), SwingConstants.CENTER);
@@ -56,24 +56,23 @@ public class PetInventory {
     inventory.add(toyPanel);
   }
 
-  public void updateLabel(Items item) {
+  public void updateLabel(Item item) {
     JLabel lbl = countLabels.get(item);
     if (lbl != null) {
       SwingUtilities.invokeLater(() -> lbl.setText(String.valueOf(player.getInventory().getOrDefault(item, 0))));
     }
   }
 
-  public void showInventory() {
-    player.setInventoryWindow(this);
-    inventory.addWindowListener(new WindowAdapter() {
-      @Override
-      public void windowClosed(WindowEvent e) {
-        if (player.getInventoryWindow() == PetInventory.this) {
-          player.setInventoryWindow(null);
-        }
-      }
-    });
+  public void refresh() {
+    for (Item item : Item.values()) {
+      updateLabel(item);
+    }
+  }
 
+  public void showInventory() {
+    refresh();
     inventory.setVisible(true);
   }
 }
+
+

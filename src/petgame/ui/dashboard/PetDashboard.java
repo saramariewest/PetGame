@@ -1,10 +1,13 @@
-package ui;
+package petgame.ui.dashboard;
 
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
 
-import model.*;
+import petgame.domain.item.Item;
+import petgame.domain.item.ItemType;
+import petgame.domain.pet.Pet;
+import petgame.domain.player.Player;
 
 // Connects pet actions to the current pet and player state.
 public class PetDashboard extends JPanel {
@@ -41,7 +44,7 @@ public class PetDashboard extends JPanel {
                 return;
             }
 
-            Items item = selectItem(ItemType.FOOD, "Choose food");
+            Item item = selectItem(ItemType.FOOD, "Choose food");
             if (item != null && player.useItem(item)) {
                 pet.feed(item.points);
                 pet.addExperience(5);
@@ -54,7 +57,7 @@ public class PetDashboard extends JPanel {
                 return;
             }
 
-            Items item = selectItem(ItemType.DRINK, "Choose drink");
+            Item item = selectItem(ItemType.DRINK, "Choose drink");
             if (item != null && player.useItem(item)) {
                 pet.drink(item.points);
                 pet.addExperience(4);
@@ -67,7 +70,7 @@ public class PetDashboard extends JPanel {
                 return;
             }
 
-            Items item = selectItem(ItemType.TOY, "Choose toy");
+            Item item = selectItem(ItemType.TOY, "Choose toy");
             if (item != null && player.useItem(item)) {
                 pet.play(item.points);
                 pet.addExperience(8);
@@ -87,26 +90,26 @@ public class PetDashboard extends JPanel {
         refreshDashboard();
     }
 
-    private Items selectItem(ItemType type, String title) {
+    private Item selectItem(ItemType type, String title) {
         // Offer only owned items that match the selected action.
-        ArrayList<Items> availableItems = new ArrayList<>();
+        ArrayList<Item> availableItem = new ArrayList<>();
 
-        for (Items item : Items.values()) {
+        for (Item item : Item.values()) {
             int amount = player.getInventory().getOrDefault(item, 0);
 
             if (item.type == type && amount > 0) {
-                availableItems.add(item);
+                availableItem.add(item);
             }
         }
 
-        if (availableItems.isEmpty()) {
+        if (availableItem.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No " + type.name().toLowerCase() + " in inventory!");
             return null;
         }
 
-        Object[] itemArray = availableItems.toArray();
+        Object[] itemArray = availableItem.toArray();
 
-        return (Items) JOptionPane.showInputDialog(
+        return (Item) JOptionPane.showInputDialog(
                 this,
                 "Which item do you want to use?",
                 title,
@@ -129,3 +132,5 @@ public class PetDashboard extends JPanel {
         }
     }
 }
+
+

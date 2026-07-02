@@ -1,4 +1,4 @@
-package ui;
+package petgame.ui.menu;
 
 import java.awt.*;
 import javax.swing.*;
@@ -50,3 +50,5 @@ public class StartMenuPanel extends JPanel {
         settingsButton.addActionListener(e -> action.run());
     }
 }
+
+

@@ -1,19 +1,21 @@
-package ui;
+package petgame.ui.shop;
 
 import java.awt.*;
 import javax.swing.*;
 
-import model.*;
+import petgame.domain.item.Item;
+import petgame.domain.player.Player;
+import petgame.ui.dashboard.PlayerStats;
 
 // Lets the player buy items with coins.
-public class PetShop {
+public class ShopWindow {
 
     private final JFrame shop;
     private final JPanel foodPanel;
     private final JPanel drinkPanel;
     private final JPanel toyPanel;
 
-    public PetShop(Player player, PlayerStats playerStats) {
+    public ShopWindow(Player player, PlayerStats playerStats, Runnable onPurchase) {
         shop = new JFrame("Shop");
         shop.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         shop.setSize(600, 400);
@@ -32,7 +34,7 @@ public class PetShop {
         toyPanel.setBorder(BorderFactory.createTitledBorder("Toys"));
         toyPanel.setLayout(new GridLayout(1, 3));
 
-        for (Items item : Items.values()) {
+        for (Item item : Item.values()) {
             JButton button = new JButton(item.displayName + " (" + item.price + ")");
             button.addActionListener(e -> {
                 if (player.getCoins() >= item.price) {
@@ -40,9 +42,7 @@ public class PetShop {
                     int oldAmount = player.getInventory().getOrDefault(item, 0);
                     player.getInventory().put(item, oldAmount + 1);
 
-                    PetInventory inv = player.getInventoryWindow();
-                    if (inv != null)
-                        inv.updateLabel(item);
+                    onPurchase.run();
                     playerStats.updateStats(player);
                 } else {
                     JOptionPane.showMessageDialog(shop, "Not enough coins for " + item.displayName + "!");
@@ -63,3 +63,5 @@ public class PetShop {
         shop.setVisible(true);
     }
 }
+
+

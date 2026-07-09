@@ -4,5 +4,3 @@ package petgame.domain.item;
 public enum ItemType {
   FOOD, DRINK, TOY
 }
-
-

@@ -3,7 +3,6 @@ package petgame.ui.dashboard;
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
-
 import petgame.domain.item.Item;
 import petgame.domain.item.ItemType;
 import petgame.domain.pet.Pet;
@@ -132,5 +131,3 @@ public class PetDashboard extends JPanel {
         }
     }
 }
-
-

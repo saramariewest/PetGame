@@ -3,7 +3,6 @@ package petgame.ui.inventory;
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
-
 import petgame.domain.item.Item;
 import petgame.domain.player.Player;
 
@@ -74,5 +73,3 @@ public class InventoryWindow {
     inventory.setVisible(true);
   }
 }
-
-

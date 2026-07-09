@@ -4,11 +4,9 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.List;
-
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
 import petgame.domain.highscore.HighscoreEntry;
 
 public final class HighscoreDialog {

@@ -50,5 +50,3 @@ public class StartMenuPanel extends JPanel {
         settingsButton.addActionListener(e -> action.run());
     }
 }
-
-

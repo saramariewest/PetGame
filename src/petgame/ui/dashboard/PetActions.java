@@ -50,5 +50,3 @@ public class PetActions extends JPanel {
         sleepButton.setEnabled(enabled);
     }
 }
-
-

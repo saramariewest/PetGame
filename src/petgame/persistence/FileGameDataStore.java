@@ -9,17 +9,16 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-
 import petgame.domain.game.GameState;
 import petgame.domain.highscore.HighscoreEntry;
 
 public class FileGameDataStore implements GameDataStore {
 
     private static final int MAX_HIGHSCORES = 10;
-    private static final Comparator<HighscoreEntry> HIGHSCORE_ORDER =
-            Comparator.comparingLong(HighscoreEntry::getScore).reversed()
-                    .thenComparing(Comparator.comparingInt(HighscoreEntry::getLevel).reversed())
-                    .thenComparing(Comparator.comparingLong(HighscoreEntry::getSurvivalTimeMillis).reversed());
+    private static final Comparator<HighscoreEntry> HIGHSCORE_ORDER = Comparator.comparingLong(HighscoreEntry::getScore)
+            .reversed()
+            .thenComparing(Comparator.comparingInt(HighscoreEntry::getLevel).reversed())
+            .thenComparing(Comparator.comparingLong(HighscoreEntry::getSurvivalTimeMillis).reversed());
 
     private final Path gameSavePath;
     private final Path highscorePath;

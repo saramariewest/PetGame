@@ -1,7 +1,6 @@
 package petgame;
 
 import java.nio.file.Path;
-
 import petgame.application.PetGame;
 import petgame.persistence.FileGameDataStore;
 import petgame.persistence.GameDataStore;
@@ -17,5 +16,3 @@ public class Main {
         game.start();
     }
 }
-
-

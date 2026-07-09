@@ -2,7 +2,6 @@ package petgame.persistence;
 
 import java.util.List;
 import java.util.Optional;
-
 import petgame.domain.game.GameState;
 import petgame.domain.highscore.HighscoreEntry;
 

@@ -2,7 +2,6 @@ package petgame.ui.shop;
 
 import java.awt.*;
 import javax.swing.*;
-
 import petgame.domain.item.Item;
 import petgame.domain.player.Player;
 import petgame.ui.dashboard.PlayerStats;
@@ -63,5 +62,3 @@ public class ShopWindow {
         shop.setVisible(true);
     }
 }
-
-

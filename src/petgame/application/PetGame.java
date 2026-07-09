@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.time.Instant;
 import javax.swing.*;
-
 import petgame.domain.game.GameState;
 import petgame.domain.highscore.HighscoreEntry;
 import petgame.domain.pet.Pet;
@@ -13,9 +12,9 @@ import petgame.persistence.GameDataStore;
 import petgame.ui.dashboard.PetDashboard;
 import petgame.ui.dashboard.PetSprite;
 import petgame.ui.dashboard.PlayerStats;
+import petgame.ui.highscore.HighscoreDialog;
 import petgame.ui.menu.GameMenuBar;
 import petgame.ui.menu.StartMenuPanel;
-import petgame.ui.highscore.HighscoreDialog;
 
 // Coordinates the game flow, menus, and the main window.
 public class PetGame {
@@ -247,5 +246,3 @@ public class PetGame {
         HighscoreDialog.show(frame, gameDataStore.loadHighscores());
     }
 }
-
-

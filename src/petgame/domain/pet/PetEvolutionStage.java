@@ -20,5 +20,3 @@ public enum PetEvolutionStage {
         return displayName;
     }
 }
-
-

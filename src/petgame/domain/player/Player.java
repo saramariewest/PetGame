@@ -2,7 +2,6 @@ package petgame.domain.player;
 
 import java.io.Serializable;
 import java.util.*;
-
 import petgame.domain.item.Item;
 import petgame.domain.item.ItemType;
 
@@ -19,7 +18,7 @@ public class Player implements Serializable {
   public long getSaveTime() {
     return saveTime;
   }
-  
+
   public void setSaveTime(long saveTime) {
     this.saveTime = saveTime;
   }
@@ -70,5 +69,3 @@ public class Player implements Serializable {
     return true;
   }
 }
-
-

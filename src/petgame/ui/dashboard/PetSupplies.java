@@ -2,7 +2,6 @@ package petgame.ui.dashboard;
 
 import java.awt.*;
 import javax.swing.*;
-
 import petgame.domain.player.Player;
 import petgame.ui.inventory.InventoryWindow;
 import petgame.ui.shop.ShopWindow;
@@ -40,5 +39,3 @@ public class PetSupplies extends JPanel {
         add(shopButton);
     }
 }
-
-

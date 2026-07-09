@@ -50,5 +50,3 @@ public class GameMenuBar {
     mainMenuItem.addActionListener(e -> action.run());
   }
 }
-
-

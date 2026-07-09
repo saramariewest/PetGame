@@ -1,7 +1,6 @@
 package petgame.domain.game;
 
 import java.io.Serializable;
-
 import petgame.domain.pet.Pet;
 import petgame.domain.player.Player;
 

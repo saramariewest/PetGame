@@ -8,8 +8,8 @@ public class HighscoreEntry implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private static final DateTimeFormatter TIME_FORMATTER =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").withZone(ZoneId.systemDefault());
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+            .withZone(ZoneId.systemDefault());
 
     private final String name;
     private final int level;
@@ -67,5 +67,3 @@ public class HighscoreEntry implements Serializable {
         return TIME_FORMATTER.format(Instant.ofEpochMilli(createdAt));
     }
 }
-
-

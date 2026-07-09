@@ -2,7 +2,6 @@ package petgame.ui.dashboard;
 
 import java.awt.*;
 import javax.swing.*;
-
 import petgame.domain.player.Player;
 
 // Shows values that belong to the player.
@@ -21,5 +20,3 @@ public class PlayerStats extends JPanel {
         coinLabel.setText("Coins:   " + player.getCoins());
     }
 }
-
-

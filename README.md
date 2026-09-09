@@ -22,40 +22,38 @@ The game also has a player with coins, an inventory, and a shop. Items can be bo
 ## Requirements
 
 - Java JDK 26
-- Maven 3.9 or newer
-- MySQL Server 8.0 or newer for the MySQL version
-- MySQL Workbench for creating and inspecting the database
+- Maven 3.9 or newer (optional when compiling directly with the JDK)
 
-## Run with MySQL
+## Run the game
 
-1. Open [database/schema.sql](database/schema.sql) in MySQL Workbench and run it. This creates the `petgame` database and its tables.
-2. Set your local MySQL credentials in PowerShell. These values are only available in your current terminal session:
+Open `src/petgame/Main.java` in VS Code and run its `main` method.
+Or run these commands from the project directory:
 
 ```powershell
-$env:PETGAME_DB_USERNAME = "root"
-$env:PETGAME_DB_PASSWORD = "your-password"
+mvn compile
+java -cp target/classes petgame.Main
 ```
 
-3. Start the Spring Boot application with the MySQL profile:
+To compile without Maven:
 
 ```powershell
-mvn spring-boot:run "-Dspring-boot.run.profiles=mysql"
+$javaFiles = Get-ChildItem -Path src/petgame -Recurse -Filter *.java
+javac -encoding UTF-8 -d bin $javaFiles.FullName
+java -cp bin petgame.Main
 ```
 
-The default database URL is `jdbc:mysql://localhost:3306/petgame?serverTimezone=Europe/Berlin`.
-To use another server or port, set `PETGAME_DB_URL` before starting the application.
+## Local save files
 
-## How the MySQL version works
+The game runs independently of MySQL and Spring Boot. `Main` creates a
+`FileGameDataStore`, which saves games to `petgame.ser` and highscores to
+`highscores.ser` in the project directory. No database connection is created.
 
-- `SaveGameEntity` maps one save slot to the `save_games` table.
-- `InventoryEntryEntity` maps each owned item and its quantity to `inventory_entries`.
-- `HighscoreEntity` maps highscores to the `highscores` table.
-- `MySqlGameDataStore` implements the existing `GameDataStore` interface, so the Swing UI can save and load without knowing whether the data comes from files or MySQL.
+`GameDataStore` describes the save and load operations used by the game;
+it does not require a database.
 
-After creating or saving a game, run this in MySQL Workbench to inspect the saved slots:
+## Separate database schema
 
-```sql
-USE petgame;
-SELECT id, save_name, pet_name, level, coins, saved_at
-FROM save_games;
-```
+[src/database/schema.sql](src/database/schema.sql) is kept as a standalone SQL
+reference for MySQL Workbench. The game does not execute or load this file.
+An existing schema on your MySQL server can remain in place for future learning.
+MySQL Server and Workbench are not required to run the game.

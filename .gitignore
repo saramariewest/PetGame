@@ -1,5 +1,7 @@
 # Java build output
 bin/
+target/
+out/
 *.class
 
 # Temporary files

@@ -7,18 +7,25 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
+
 import petgame.domain.game.GameState;
 import petgame.domain.highscore.HighscoreEntry;
 
 public class FileGameDataStore implements GameDataStore {
 
     private static final int MAX_HIGHSCORES = 10;
-    private static final Comparator<HighscoreEntry> HIGHSCORE_ORDER = Comparator.comparingLong(HighscoreEntry::getScore)
+    private static final Comparator<HighscoreEntry> HIGHSCORE_ORDER = Comparator
+            .comparingLong((HighscoreEntry entry) -> entry.getScore())
             .reversed()
-            .thenComparing(Comparator.comparingInt(HighscoreEntry::getLevel).reversed())
-            .thenComparing(Comparator.comparingLong(HighscoreEntry::getSurvivalTimeMillis).reversed());
+            .thenComparing(
+                    Comparator.comparingInt((HighscoreEntry entry) -> entry.getLevel()).reversed())
+            .thenComparing(
+                    Comparator.comparingLong((HighscoreEntry entry) -> entry.getSurvivalTimeMillis()).reversed());
 
     private final Path gameSavePath;
     private final Path highscorePath;
@@ -30,12 +37,34 @@ public class FileGameDataStore implements GameDataStore {
 
     @Override
     public void saveGame(GameState gameState) {
-        writeObject(gameSavePath, gameState);
+        Map<UUID, GameState> games = readGameStore();
+        if (gameState.getId() == null) {
+            gameState.setId(UUID.randomUUID());
+        }
+        gameState.setSavedAt(java.time.LocalDateTime.now());
+        games.put(gameState.getId(), gameState);
+        writeObject(gameSavePath, games);
     }
 
     @Override
-    public Optional<GameState> loadGame() {
-        return readObject(gameSavePath, GameState.class);
+    public Optional<GameState> loadGame(UUID id) {
+        return Optional.ofNullable(readGameStore().get(id));
+    }
+
+    @Override
+    public List<GameState> loadAllGames() {
+        List<GameState> games = new ArrayList<>(readGameStore().values());
+        games.sort(Comparator.comparing(
+                (GameState game) -> game.getSavedAt(),
+                Comparator.nullsLast(Comparator.reverseOrder())));
+        return games;
+    }
+
+    @Override
+    public void deleteGame(UUID id) {
+        Map<UUID, GameState> games = readGameStore();
+        games.remove(id);
+        writeObject(gameSavePath, games);
     }
 
     @Override
@@ -91,5 +120,49 @@ public class FileGameDataStore implements GameDataStore {
         }
 
         return Optional.empty();
+    }
+
+    private Map<UUID, GameState> readGameStore() {
+        if (Files.notExists(gameSavePath)) {
+            return new HashMap<>();
+        }
+
+        try (ObjectInputStream input = new ObjectInputStream(Files.newInputStream(gameSavePath))) {
+            Object value = input.readObject();
+            if (value instanceof Map<?, ?> map) {
+                Map<UUID, GameState> games = new HashMap<>();
+                for (Map.Entry<?, ?> entry : map.entrySet()) {
+                    if (entry.getKey() instanceof UUID id && entry.getValue() instanceof GameState game) {
+                        games.put(id, game);
+                    }
+                }
+                return games;
+            }
+
+            // Older versions stored exactly one GameState. Keep it as the first save slot.
+            if (value instanceof GameState game) {
+                ensureSaveMetadata(game);
+                Map<UUID, GameState> games = new HashMap<>();
+                games.put(game.getId(), game);
+                return games;
+            }
+        } catch (IOException | ClassNotFoundException exception) {
+            System.err.println("Could not load saved games: " + exception.getMessage());
+        }
+
+        return new HashMap<>();
+    }
+
+    private void ensureSaveMetadata(GameState game) {
+        if (game.getId() == null) {
+            game.setId(UUID.randomUUID());
+        }
+        if (game.getSaveName() == null || game.getSaveName().isBlank()) {
+            String petName = game.getPet() == null ? "Pet" : game.getPet().getName();
+            game.setSaveName((petName == null || petName.isBlank() ? "Pet" : petName) + "'s save");
+        }
+        if (game.getSavedAt() == null) {
+            game.setSavedAt(java.time.LocalDateTime.now());
+        }
     }
 }

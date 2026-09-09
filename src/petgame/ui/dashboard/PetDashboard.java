@@ -7,6 +7,7 @@ import petgame.domain.item.Item;
 import petgame.domain.item.ItemType;
 import petgame.domain.pet.Pet;
 import petgame.domain.player.Player;
+import petgame.ui.UiTheme;
 
 // Connects pet actions to the current pet and player state.
 public class PetDashboard extends JPanel {
@@ -15,7 +16,8 @@ public class PetDashboard extends JPanel {
     private final PetStats statsPanel;
     private final PetSupplies suppliesPanel;
     private final PetActions actionsPanel;
-    private final JPanel leftPanel;
+    private final JPanel petAndStatusPanel;
+    private final JPanel actionAndItemsPanel;
     private final Player player;
     private final PetSprite sprite;
 
@@ -23,20 +25,26 @@ public class PetDashboard extends JPanel {
         this.pet = pet;
         this.player = player;
         this.sprite = sprite;
-        setLayout(new GridLayout(1, 2, 10, 10));
+        setLayout(new GridLayout(1, 2, 14, 0));
+        setBackground(UiTheme.BACKGROUND);
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         statsPanel = new PetStats();
         suppliesPanel = new PetSupplies(player, playerStats);
         actionsPanel = new PetActions();
 
-        leftPanel = new JPanel(new BorderLayout(5, 10));
+        petAndStatusPanel = new JPanel(new BorderLayout(0, 10));
+        petAndStatusPanel.setOpaque(false);
+        petAndStatusPanel.add(sprite, BorderLayout.CENTER);
+        petAndStatusPanel.add(statsPanel, BorderLayout.SOUTH);
 
-        leftPanel.add(statsPanel, BorderLayout.NORTH);
-        leftPanel.add(suppliesPanel, BorderLayout.CENTER);
+        actionAndItemsPanel = new JPanel(new BorderLayout(0, 10));
+        actionAndItemsPanel.setOpaque(false);
+        actionAndItemsPanel.add(actionsPanel, BorderLayout.CENTER);
+        actionAndItemsPanel.add(suppliesPanel, BorderLayout.SOUTH);
 
-        add(leftPanel);
-        add(actionsPanel);
+        add(petAndStatusPanel);
+        add(actionAndItemsPanel);
 
         actionsPanel.addFeedListener(e -> {
             if (!pet.isAlive()) {

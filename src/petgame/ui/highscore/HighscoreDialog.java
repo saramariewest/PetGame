@@ -4,10 +4,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import petgame.domain.highscore.HighscoreEntry;
+import petgame.ui.UiTheme;
 
 public final class HighscoreDialog {
 
@@ -19,6 +21,9 @@ public final class HighscoreDialog {
         textArea.setEditable(false);
         textArea.setCaretPosition(0);
         textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+        textArea.setBackground(UiTheme.SURFACE);
+        textArea.setForeground(UiTheme.TEXT);
+        textArea.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
 
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setPreferredSize(new Dimension(520, 320));

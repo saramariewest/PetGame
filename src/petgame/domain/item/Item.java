@@ -5,7 +5,7 @@ public enum Item {
     SUSHI("Sushi", ItemType.FOOD, 15, 15),
     CAKE("Cake", ItemType.FOOD, 20, 25),
     WATER("Water", ItemType.DRINK, 5, 10),
-    ENERGY_DRINK("Energy Drink", ItemType.DRINK, 25, 30),
+    ENERGY("Energy", ItemType.DRINK, 25, 30),
     JUICE("Juice", ItemType.DRINK, 12, 15),
     BALL("Ball", ItemType.TOY, 30, 10),
     SKATEBOARD("Skateboard", ItemType.TOY, 50, 20),

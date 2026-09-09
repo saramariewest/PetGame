@@ -3,6 +3,7 @@ package petgame.ui.dashboard;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import petgame.ui.UiTheme;
 
 // Contains the main action buttons for the pet.
 public class PetActions extends JPanel {
@@ -13,17 +14,28 @@ public class PetActions extends JPanel {
     private final JButton sleepButton;
 
     public PetActions() {
-        setLayout(new GridLayout(2, 2));
+        setLayout(new BorderLayout(0, 10));
+        UiTheme.styleCard(this);
 
         feedButton = new JButton("Feed");
         drinkButton = new JButton("Drink");
         playButton = new JButton("Play");
         sleepButton = new JButton("Sleep");
 
-        add(feedButton);
-        add(drinkButton);
-        add(playButton);
-        add(sleepButton);
+        UiTheme.stylePrimaryButton(feedButton);
+        UiTheme.stylePrimaryButton(drinkButton);
+        UiTheme.styleWarningButton(playButton);
+        UiTheme.styleSecondaryButton(sleepButton);
+
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+        buttonPanel.setOpaque(false);
+        buttonPanel.add(feedButton);
+        buttonPanel.add(drinkButton);
+        buttonPanel.add(playButton);
+        buttonPanel.add(sleepButton);
+
+        add(UiTheme.createSectionTitle("Care actions"), BorderLayout.NORTH);
+        add(buttonPanel, BorderLayout.CENTER);
     }
 
     // The dashboard connects these buttons to game behavior.

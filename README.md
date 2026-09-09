@@ -21,24 +21,41 @@ The game also has a player with coins, an inventory, and a shop. Items can be bo
 
 ## Requirements
 
-- Java JDK, Java 17 or newer recommended
-- No external libraries needed
-- Swing is included in the JDK
+- Java JDK 26
+- Maven 3.9 or newer
+- MySQL Server 8.0 or newer for the MySQL version
+- MySQL Workbench for creating and inspecting the database
 
-## Run
+## Run with MySQL
 
-From the project folder:
+1. Open [database/schema.sql](database/schema.sql) in MySQL Workbench and run it. This creates the `petgame` database and its tables.
+2. Set your local MySQL credentials in PowerShell. These values are only available in your current terminal session:
 
 ```powershell
-New-Item -ItemType Directory -Force -Path bin
-javac -d bin (Get-ChildItem -Recurse src -Filter *.java).FullName
-java -cp bin petgame.Main
+$env:PETGAME_DB_USERNAME = "root"
+$env:PETGAME_DB_PASSWORD = "your-password"
 ```
 
-On Linux or macOS:
+3. Start the Spring Boot application with the MySQL profile:
 
-```bash
-mkdir -p bin
-javac -d bin $(find src -name "*.java")
-java -cp bin petgame.Main
+```powershell
+mvn spring-boot:run "-Dspring-boot.run.profiles=mysql"
+```
+
+The default database URL is `jdbc:mysql://localhost:3306/petgame?serverTimezone=Europe/Berlin`.
+To use another server or port, set `PETGAME_DB_URL` before starting the application.
+
+## How the MySQL version works
+
+- `SaveGameEntity` maps one save slot to the `save_games` table.
+- `InventoryEntryEntity` maps each owned item and its quantity to `inventory_entries`.
+- `HighscoreEntity` maps highscores to the `highscores` table.
+- `MySqlGameDataStore` implements the existing `GameDataStore` interface, so the Swing UI can save and load without knowing whether the data comes from files or MySQL.
+
+After creating or saving a game, run this in MySQL Workbench to inspect the saved slots:
+
+```sql
+USE petgame;
+SELECT id, save_name, pet_name, level, coins, saved_at
+FROM save_games;
 ```

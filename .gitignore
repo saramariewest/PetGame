@@ -9,6 +9,7 @@ bin/
 # Save files
 petgame.ser
 highscores.ser
+.env
 
 # Local test/build folders
 

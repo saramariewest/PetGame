@@ -7,6 +7,7 @@ public class GameMenuBar {
 
   private final JMenuBar menuBar;
   private final JMenuItem highscoreItem;
+  private final JMenuItem saveGameItem;
   private final JMenuItem settingsItem;
   private final JMenuItem mainMenuItem;
 
@@ -25,6 +26,12 @@ public class GameMenuBar {
         InputEvent.ALT_DOWN_MASK));
     menu.add(highscoreItem);
 
+    saveGameItem = new JMenuItem("Save Game");
+    saveGameItem.setAccelerator(KeyStroke.getKeyStroke(
+        KeyEvent.VK_S,
+        InputEvent.CTRL_DOWN_MASK));
+    menu.add(saveGameItem);
+
     settingsItem = new JMenuItem("Settings");
     settingsItem.setAccelerator(KeyStroke.getKeyStroke(
         KeyEvent.VK_S,
@@ -40,6 +47,10 @@ public class GameMenuBar {
 
   public void onHighscore(Runnable action) {
     highscoreItem.addActionListener(e -> action.run());
+  }
+
+  public void onSaveGame(Runnable action) {
+    saveGameItem.addActionListener(e -> action.run());
   }
 
   public void onSettings(Runnable action) {

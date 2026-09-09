@@ -4,6 +4,7 @@ import java.awt.*;
 import java.io.File;
 import javax.swing.*;
 import petgame.domain.pet.Pet;
+import petgame.ui.UiTheme;
 
 // Displays the sprite for the pet's current evolution stage.
 public class PetSprite extends JPanel {
@@ -14,7 +15,10 @@ public class PetSprite extends JPanel {
 
     public PetSprite() {
         setLayout(new GridBagLayout());
+        UiTheme.styleCard(this);
         spriteLabel = new JLabel("Pet Sprite Placeholder", SwingConstants.CENTER);
+        spriteLabel.setFont(UiTheme.HEADING_FONT);
+        spriteLabel.setForeground(UiTheme.TEXT);
         spriteLabel.setHorizontalTextPosition(SwingConstants.CENTER);
         spriteLabel.setVerticalTextPosition(SwingConstants.BOTTOM);
         add(spriteLabel);

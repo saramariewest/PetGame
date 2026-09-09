@@ -18,11 +18,20 @@ public class HighscoreEntry implements Serializable {
     private final long createdAt;
 
     public HighscoreEntry(String name, int level, long survivalTimeMillis) {
+        this(name, level, survivalTimeMillis, calculateScore(level, survivalTimeMillis), Instant.now().toEpochMilli());
+    }
+
+    private HighscoreEntry(String name, int level, long survivalTimeMillis, long score, long createdAt) {
         this.name = name;
         this.level = level;
         this.survivalTimeMillis = survivalTimeMillis;
-        this.score = calculateScore(level, survivalTimeMillis);
-        this.createdAt = Instant.now().toEpochMilli();
+        this.score = score;
+        this.createdAt = createdAt;
+    }
+
+    public static HighscoreEntry restore(
+            String name, int level, long survivalTimeMillis, long score, long createdAt) {
+        return new HighscoreEntry(name, level, survivalTimeMillis, score, createdAt);
     }
 
     public static long calculateScore(int level, long survivalTimeMillis) {

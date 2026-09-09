@@ -34,6 +34,37 @@ public class Pet implements Serializable {
         this.name = name;
     }
 
+    public static Pet restore(
+            String name,
+            int hunger,
+            int thirst,
+            int mood,
+            int energy,
+            int level,
+            int experience,
+            boolean alive,
+            int criticalTicks,
+            long initTimestamp,
+            long deathTimestamp,
+            long saveTime,
+            boolean highscoreRecorded) {
+        Pet pet = new Pet();
+        pet.name = name;
+        pet.hunger = hunger;
+        pet.thirst = thirst;
+        pet.mood = mood;
+        pet.energy = energy;
+        pet.level = level;
+        pet.experience = experience;
+        pet.alive = alive;
+        pet.criticalTicks = criticalTicks;
+        pet.initTimestamp = initTimestamp;
+        pet.deathTimestamp = deathTimestamp;
+        pet.saveTime = saveTime;
+        pet.highscoreRecorded = highscoreRecorded;
+        return pet;
+    }
+
     public long getSaveTime() {
         return saveTime;
     }
@@ -44,6 +75,14 @@ public class Pet implements Serializable {
 
     public long getInitTimestamp() {
         return initTimestamp;
+    }
+
+    public long getDeathTimestamp() {
+        return deathTimestamp;
+    }
+
+    public int getCriticalTicks() {
+        return criticalTicks;
     }
 
     public long getSurvivalTimeMillis() {

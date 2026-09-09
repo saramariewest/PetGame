@@ -3,6 +3,9 @@ package petgame.application;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.UUID;
 import javax.swing.*;
 import petgame.domain.game.GameState;
 import petgame.domain.highscore.HighscoreEntry;
@@ -15,6 +18,7 @@ import petgame.ui.dashboard.PlayerStats;
 import petgame.ui.highscore.HighscoreDialog;
 import petgame.ui.menu.GameMenuBar;
 import petgame.ui.menu.StartMenuPanel;
+import petgame.ui.UiTheme;
 
 // Coordinates the game flow, menus, and the main window.
 public class PetGame {
@@ -38,6 +42,7 @@ public class PetGame {
     private GameMenuBar gameMenu;
     private Timer timer;
     private boolean highscoreRecorded;
+    private GameState currentGame;
 
     public PetGame(GameDataStore gameDataStore) {
         this.gameDataStore = gameDataStore;
@@ -46,11 +51,12 @@ public class PetGame {
     public void start() {
         frame = new JFrame("Pet Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(700, 800);
+        frame.setSize(920, 760);
         frame.setLocationRelativeTo(null);
 
         cardLayout = new CardLayout();
         rootPanel = new JPanel(cardLayout);
+        rootPanel.setBackground(UiTheme.BACKGROUND);
 
         mainMenuPanel = new StartMenuPanel();
         mainMenuPanel.onNewGame(this::startNewGame);
@@ -76,9 +82,22 @@ public class PetGame {
     private void startNewGame() {
         stopCurrentGame();
 
+        String petName = askForPetName();
+        if (petName == null) {
+            return;
+        }
+
+        String saveName = askForSaveName(petName);
+        if (saveName == null) {
+            return;
+        }
+
         player = new Player();
-        pet = new Pet(askForPetName());
+        pet = new Pet(petName);
+        currentGame = new GameState(saveName, player, pet);
         highscoreRecorded = false;
+
+        saveCurrentGame();
 
         showGameScreen();
     }
@@ -86,12 +105,12 @@ public class PetGame {
     private void startSavedGame() {
         stopCurrentGame();
 
-        GameState savedGame = gameDataStore.loadGame().orElse(null);
+        GameState savedGame = chooseSavedGame();
         if (savedGame == null) {
-            JOptionPane.showMessageDialog(frame, "No saved game found.");
             return;
         }
 
+        currentGame = savedGame;
         player = savedGame.getPlayer();
         pet = savedGame.getPet();
         highscoreRecorded = pet.isHighscoreRecorded();
@@ -133,12 +152,10 @@ public class PetGame {
         dashboard = new PetDashboard(pet, player, playerStats, sprite);
 
         playerStats.setPreferredSize(new Dimension(0, 50));
-        dashboard.setPreferredSize(new Dimension(0, 330));
-
         JPanel mainPanel = new JPanel(new BorderLayout(0, 0));
+        mainPanel.setBackground(UiTheme.BACKGROUND);
         mainPanel.add(playerStats, BorderLayout.NORTH);
-        mainPanel.add(sprite, BorderLayout.CENTER);
-        mainPanel.add(dashboard, BorderLayout.SOUTH);
+        mainPanel.add(dashboard, BorderLayout.CENTER);
         mainPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
         gamePanel = mainPanel;
@@ -146,6 +163,7 @@ public class PetGame {
 
     private void installGameMenuBar() {
         gameMenu = new GameMenuBar(frame);
+        gameMenu.onSaveGame(this::saveCurrentGame);
         gameMenu.onHighscore(this::showHighscores);
         gameMenu.onSettings(this::showSettings);
         gameMenu.onMainMenu(this::returnToMainMenu);
@@ -207,7 +225,100 @@ public class PetGame {
             long saveTime = Instant.now().toEpochMilli();
             player.setSaveTime(saveTime);
             pet.setSaveTime(saveTime);
-            gameDataStore.saveGame(new GameState(player, pet));
+
+            if (currentGame == null) {
+                currentGame = new GameState(defaultSaveName(), player, pet);
+            } else {
+                currentGame.setPlayer(player);
+                currentGame.setPet(pet);
+            }
+
+            gameDataStore.saveGame(currentGame);
+        }
+    }
+
+    private String askForSaveName(String petName) {
+        String defaultName = petName + "'s save";
+        String saveName = JOptionPane.showInputDialog(frame, "Name this save slot:", defaultName);
+        if (saveName == null) {
+            return null;
+        }
+        return saveName.isBlank() ? defaultName : saveName.trim();
+    }
+
+    private String defaultSaveName() {
+        String petName = pet == null || pet.getName() == null || pet.getName().isBlank() ? "Pet" : pet.getName();
+        return petName + "'s save";
+    }
+
+    private GameState chooseSavedGame() {
+        List<GameState> saves = gameDataStore.loadAllGames();
+        if (saves.isEmpty()) {
+            JOptionPane.showMessageDialog(frame, "No saved games found.");
+            return null;
+        }
+
+        DefaultListModel<GameState> model = new DefaultListModel<>();
+        saves.forEach(model::addElement);
+        JList<GameState> list = new JList<>(model);
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list.setSelectedIndex(0);
+        list.setCellRenderer(new SaveSlotRenderer());
+
+        while (true) {
+            Object[] options = { "Load", "Delete", "Cancel" };
+            int choice = JOptionPane.showOptionDialog(
+                    frame,
+                    new JScrollPane(list),
+                    "Choose a saved game",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+
+            GameState selected = list.getSelectedValue();
+            if (choice == 0 && selected != null) {
+                UUID id = selected.getId();
+                return id == null ? selected : gameDataStore.loadGame(id).orElse(null);
+            }
+            if (choice != 1 || selected == null) {
+                return null;
+            }
+
+            int confirmation = JOptionPane.showConfirmDialog(
+                    frame,
+                    "Delete the save slot '" + selected.getSaveName() + "'?",
+                    "Delete saved game",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+            if (confirmation == JOptionPane.YES_OPTION) {
+                gameDataStore.deleteGame(selected.getId());
+                model.removeElement(selected);
+                if (model.isEmpty()) {
+                    JOptionPane.showMessageDialog(frame, "No saved games found.");
+                    return null;
+                }
+                list.setSelectedIndex(0);
+            }
+        }
+    }
+
+    private static class SaveSlotRenderer extends DefaultListCellRenderer {
+        private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        @Override
+        public Component getListCellRendererComponent(
+                JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            if (value instanceof GameState game) {
+                String petName = game.getPet() == null || game.getPet().getName() == null
+                        ? "Pet"
+                        : game.getPet().getName();
+                String savedAt = game.getSavedAt() == null ? "unknown time" : TIME_FORMAT.format(game.getSavedAt());
+                label.setText(game.getSaveName() + " — " + petName + " (saved " + savedAt + ")");
+            }
+            return label;
         }
     }
 
@@ -218,7 +329,10 @@ public class PetGame {
     private String askForPetName() {
         String petName = JOptionPane.showInputDialog(frame, "Name your pet:");
 
-        if (petName == null || petName.isBlank()) {
+        if (petName == null) {
+            return null;
+        }
+        if (petName.isBlank()) {
             return "Pet";
         }
 

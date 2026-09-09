@@ -5,6 +5,7 @@ import java.util.*;
 import javax.swing.*;
 import petgame.domain.item.Item;
 import petgame.domain.player.Player;
+import petgame.ui.UiTheme;
 
 // Shows the amount owned for each item.
 public class InventoryWindow {
@@ -22,22 +23,31 @@ public class InventoryWindow {
     inventory.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     inventory.setSize(600, 400);
     inventory.setLocationRelativeTo(null);
-    inventory.setLayout(new GridLayout(3, 1));
+    JPanel content = new JPanel(new GridLayout(3, 1, 12, 12));
+    content.setBackground(UiTheme.BACKGROUND);
+    content.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
+    inventory.setContentPane(content);
 
     foodPanel = new JPanel();
-    foodPanel.setBorder(BorderFactory.createTitledBorder("Food"));
+    foodPanel.setBackground(UiTheme.SURFACE);
+    foodPanel.setBorder(UiTheme.createSectionBorder("Food"));
     foodPanel.setLayout(new GridLayout(1, Item.values().length));
     drinkPanel = new JPanel();
-    drinkPanel.setBorder(BorderFactory.createTitledBorder("Drinks"));
+    drinkPanel.setBackground(UiTheme.SURFACE);
+    drinkPanel.setBorder(UiTheme.createSectionBorder("Drinks"));
     drinkPanel.setLayout(new GridLayout(1, Item.values().length));
     toyPanel = new JPanel();
-    toyPanel.setBorder(BorderFactory.createTitledBorder("Toys"));
+    toyPanel.setBackground(UiTheme.SURFACE);
+    toyPanel.setBorder(UiTheme.createSectionBorder("Toys"));
     toyPanel.setLayout(new GridLayout(1, Item.values().length));
 
     for (Item item : Item.values()) {
       JPanel panel = new JPanel(new BorderLayout());
-      panel.setBorder(BorderFactory.createTitledBorder(item.displayName));
+      panel.setBackground(UiTheme.SURFACE_LIGHT);
+      panel.setBorder(UiTheme.createSectionBorder(item.displayName));
       JLabel count = new JLabel(String.valueOf(player.getInventory().getOrDefault(item, 0)), SwingConstants.CENTER);
+      count.setFont(UiTheme.HEADING_FONT);
+      count.setForeground(UiTheme.ACCENT);
       panel.add(count, BorderLayout.CENTER);
       countLabels.put(item, count);
 
@@ -50,9 +60,9 @@ public class InventoryWindow {
       player.getInventory().putIfAbsent(item, 0);
     }
 
-    inventory.add(foodPanel);
-    inventory.add(drinkPanel);
-    inventory.add(toyPanel);
+    content.add(foodPanel);
+    content.add(drinkPanel);
+    content.add(toyPanel);
   }
 
   public void updateLabel(Item item) {

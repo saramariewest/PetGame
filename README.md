@@ -41,19 +41,3 @@ $javaFiles = Get-ChildItem -Path src/petgame -Recurse -Filter *.java
 javac -encoding UTF-8 -d bin $javaFiles.FullName
 java -cp bin petgame.Main
 ```
-
-## Local save files
-
-The game runs independently of MySQL and Spring Boot. `Main` creates a
-`FileGameDataStore`, which saves games to `petgame.ser` and highscores to
-`highscores.ser` in the project directory. No database connection is created.
-
-`GameDataStore` describes the save and load operations used by the game;
-it does not require a database.
-
-## Separate database schema
-
-[src/database/schema.sql](src/database/schema.sql) is kept as a standalone SQL
-reference for MySQL Workbench. The game does not execute or load this file.
-An existing schema on your MySQL server can remain in place for future learning.
-MySQL Server and Workbench are not required to run the game.
